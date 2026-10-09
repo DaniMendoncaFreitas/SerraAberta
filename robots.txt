@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://serraaberta.com.br/sitemap.xml
