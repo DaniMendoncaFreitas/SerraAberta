@@ -7,7 +7,7 @@
 <meta name="description" content="Descubra onde ir no Rio Grande do Sul: parques, praças, praias, cachoeiras, mirantes e eventos na Serra Gaúcha, no Litoral e na Fronteira, com mapa e agenda atualizada.">
 <link rel="canonical" href="https://serraaberta.com.br/">
 <meta name="robots" content="index, follow, max-image-preview:large">
-<meta name="theme-color" content="#1E5B47">
+<meta name="theme-color" content="#12614B">
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22%231E5B47%22%2F%3E%3Cpath%20d%3D%22M6%2050l18-24%2010%2013%208-9%2016%2020z%22%20fill%3D%22%23fff%22%2F%3E%3Ccircle%20cx%3D%2246%22%20cy%3D%2218%22%20r%3D%227%22%20fill%3D%22%23E9A91F%22%2F%3E%3C%2Fsvg%3E">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="pt_BR">
@@ -275,13 +275,180 @@ dialog[open]{animation:folha .36s cubic-bezier(.2,1.1,.3,1)}
 .guia h3{font-size:1.05rem;margin:16px 0 2px}.guia .guia-t{color:var(--muted);font-size:.85rem;margin:0 0 4px}
 .guia ul{margin:0 0 8px;padding-left:18px;columns:2 220px;font-size:.9rem;color:var(--muted)}
 </style>
+<style id="visual-2026">
+/* ===================== VISUAL 2026: cores da Serra, céu que muda com a hora ===================== */
+:root{
+  --pine:#12614B; --uva:#8E1F4F; --sol:#F2B21B; --sol-ink:#3A2800; --hort:#3D63DB;
+  --coral:#E8573F; --lago:#0F8FA6; --lavanda:#7B5BD6;
+  --bg:#EEF3EF; --line:#D5DFD8; --chip:#E3EBE5;
+  --acc:var(--pine); --acc-ink:#fff;
+  --sombra:0 1px 2px rgba(18,52,42,.08),0 12px 28px -12px rgba(18,52,42,.28);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){ --bg:#0D171A; --line:#26383C; --chip:#1D2F33; --coral:#FF7A62; --lago:#3CC2D6; --lavanda:#A68BF2; --sombra:0 12px 30px -10px rgba(0,0,0,.6); }
+}
+:root[data-theme="dark"]{ --bg:#0D171A; --line:#26383C; --chip:#1D2F33; --coral:#FF7A62; --lago:#3CC2D6; --lavanda:#A68BF2; --sombra:0 12px 30px -10px rgba(0,0,0,.6); }
+body[data-reg="serra"]{--acc:var(--pine)}
+body[data-reg="litoral"]{--acc:var(--lago)}
+body[data-reg="fronteira"]{--acc:#C2621A}
+body[data-reg="rs"]{--acc:var(--uva)}
+body{padding-bottom:calc(96px + var(--extra,0px));background:
+  radial-gradient(900px 420px at 110% -5%, color-mix(in srgb,var(--acc) 14%,transparent), transparent 70%),
+  radial-gradient(700px 380px at -10% 30%, color-mix(in srgb,var(--sol) 10%,transparent), transparent 70%), var(--bg);background-attachment:fixed;transition:background-color .4s}
+
+/* barra de progresso da rolagem */
+.progresso{position:fixed;top:0;left:0;right:0;height:3px;z-index:60;transform-origin:0 50%;transform:scaleX(0);background:linear-gradient(90deg,var(--pine),var(--sol),var(--coral),var(--uva));pointer-events:none}
+
+/* topo de vidro */
+.topo{background:color-mix(in srgb,var(--bg) 80%,transparent);-webkit-backdrop-filter:blur(16px) saturate(1.4);backdrop-filter:blur(16px) saturate(1.4);border-bottom:1px solid color-mix(in srgb,var(--line) 70%,transparent)}
+.marca{display:flex;align-items:center;gap:8px;font-size:1.28rem}
+.marca svg{width:30px;height:30px;flex:none;border-radius:9px;box-shadow:0 4px 12px -4px color-mix(in srgb,var(--acc) 70%,transparent)}
+.marca i{color:var(--acc);transition:color .4s}
+.atual{background:var(--surface)}
+.vivo,.vivo::after{background:var(--acc)}
+
+.regioes{gap:8px}
+.reg{--rc:var(--pine);position:relative;overflow:hidden;border:0;background:var(--surface);box-shadow:inset 0 0 0 1.5px var(--line);color:var(--ink);transition:color .25s,box-shadow .25s,transform .2s}
+.reg[data-r="litoral"]{--rc:var(--lago)}.reg[data-r="fronteira"]{--rc:#C2621A}.reg[data-r="rs"]{--rc:var(--uva)}
+.reg::before{content:"";position:absolute;inset:0;background:var(--rc);transform:translateY(101%);transition:transform .35s cubic-bezier(.2,.9,.3,1);z-index:0}
+.reg span{position:relative;z-index:1}
+.reg[aria-pressed="true"]{color:#fff;box-shadow:0 8px 18px -8px var(--rc);background:var(--surface)}
+.reg[aria-pressed="true"]::before{transform:none}
+.barra-f select{background:var(--acc);color:var(--acc-ink);transition:background .4s}
+.chip{background:var(--surface);box-shadow:inset 0 0 0 1px var(--line)}
+.chip[aria-pressed="true"]{background:var(--acc);color:#fff;box-shadow:0 6px 14px -8px var(--acc)}
+
+/* faixa que corre */
+.faixa{background:linear-gradient(90deg,var(--uva),#B2335F 40%,var(--lavanda));font-size:.84rem}
+.faixa:hover div,.faixa:active div{animation-play-state:paused}
+
+/* ===== cena: o céu acompanha a hora do dia ===== */
+.cena{height:240px;border-radius:0 0 30px 30px;isolation:isolate;cursor:pointer}
+.cena svg{pointer-events:auto}
+.c1,.c2,.c3{transition:stop-color 1.2s}
+.cena[data-ceu="manha"] .c1{stop-color:#7FA8F5}.cena[data-ceu="manha"] .c2{stop-color:#F9C9C1}.cena[data-ceu="manha"] .c3{stop-color:#FFE6B0}
+.cena[data-ceu="dia"] .c1{stop-color:#3F7FE8}.cena[data-ceu="dia"] .c2{stop-color:#8EC0FA}.cena[data-ceu="dia"] .c3{stop-color:#D9EEFF}
+.cena[data-ceu="tarde"] .c1{stop-color:#5B4BC4}.cena[data-ceu="tarde"] .c2{stop-color:#F0738A}.cena[data-ceu="tarde"] .c3{stop-color:#FFB65C}
+.cena[data-ceu="noite"] .c1{stop-color:#0B1240}.cena[data-ceu="noite"] .c2{stop-color:#28307A}.cena[data-ceu="noite"] .c3{stop-color:#5A4A9E}
+.estrelas{opacity:0;transition:opacity 1.2s}
+.cena[data-ceu="noite"] .estrelas{opacity:1}
+.estrelas circle{fill:#fff;animation:brilha 3s ease-in-out infinite}
+.estrelas circle:nth-child(3n){animation-delay:-1s}.estrelas circle:nth-child(3n+1){animation-delay:-2s}
+@keyframes brilha{50%{opacity:.25}}
+.sol-n{fill:#FFE79A;transition:fill 1.2s}
+.cena[data-ceu="noite"] .sol-n{fill:#F3F1E4}
+.cena[data-ceu="noite"] .sol-c{opacity:.35}
+.cena[data-ceu="tarde"] .sol-n{fill:#FFC86B}
+.px1,.px2,.px3,.px4{transition:transform .6s cubic-bezier(.2,.8,.3,1)}
+.px1{transform:translate(calc(var(--px,0)*-4px),calc(var(--py,0)*-2px))}
+.px2{transform:translateX(calc(var(--px,0)*-8px))}
+.px3{transform:translateX(calc(var(--px,0)*-14px))}
+.px4{transform:translateX(calc(var(--px,0)*-22px))}
+.mo1{fill:color-mix(in srgb,var(--m1) 85%,var(--lavanda))}
+.bal{cursor:pointer}
+.balao .bal-s{animation:none}
+.bal-s{transition:transform 2.2s cubic-bezier(.4,0,.6,1),opacity 2.2s}
+.bal.sobe .bal-s{transform:translateY(-190px) scale(.6);opacity:0}
+.dica-cena{position:absolute;left:14px;bottom:12px;z-index:2;font-size:.74rem;font-weight:700;color:#fff;background:rgba(10,30,24,.38);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);padding:5px 10px;border-radius:999px;pointer-events:none;transition:opacity .4s}
+.dica-cena.some{opacity:0}
+
+.hero{padding:20px 0 4px}
+.hero h1{font-size:clamp(2.1rem,9vw,4rem);letter-spacing:-.035em}
+.roda{color:var(--acc);background:linear-gradient(100deg,var(--acc),color-mix(in srgb,var(--acc) 55%,var(--sol)));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;padding-right:.04em}
+.busca{border-radius:18px;box-shadow:var(--sombra);border-color:transparent;transition:box-shadow .25s}
+.busca:focus-within{box-shadow:0 0 0 3px color-mix(in srgb,var(--acc) 35%,transparent),var(--sombra)}
+.acoes-hero{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.btn-sorte{display:inline-flex;align-items:center;gap:8px;height:46px;padding:0 16px;border:0;border-radius:14px;font-weight:700;color:#fff;background:linear-gradient(120deg,var(--coral),var(--uva));box-shadow:0 10px 22px -12px var(--uva);transition:transform .15s}
+.btn-sorte:active{transform:scale(.95)}
+.btn-sorte .dado{display:inline-block;transition:transform .5s cubic-bezier(.2,1.4,.4,1)}
+.btn-sorte.gira .dado{transform:rotate(360deg) scale(1.2)}
+.btn-agenda-h{height:46px;padding:0 16px;border:0;border-radius:14px;font-weight:700;background:var(--surface);box-shadow:inset 0 0 0 1.5px var(--line)}
+
+/* ===== nesta semana: bilhetes ===== */
+.semana{margin:22px -14px 4px}
+.semana-cab{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding:0 14px;margin-bottom:10px}
+.semana-cab h2{font-size:1.5rem}
+.semana-cab button{border:0;background:none;color:var(--acc);font-weight:700;padding:6px 0}
+.trilho{display:flex;gap:12px;overflow-x:auto;padding:4px 14px 14px;scroll-snap-type:x mandatory;scrollbar-width:none}
+.trilho::-webkit-scrollbar{display:none}
+.bilhete{--cor:var(--uva);flex:none;position:relative;display:grid;grid-template-columns:70px minmax(0,1fr);width:min(82vw,330px);min-height:118px;border:0;padding:0;text-align:left;border-radius:20px;background:var(--surface);box-shadow:var(--sombra);scroll-snap-align:start;overflow:hidden;transition:transform .2s}
+.bilhete:active{transform:scale(.97)}
+.b-dia{display:grid;place-content:center;text-align:center;background:var(--cor);color:#fff;font-family:var(--display);line-height:1;padding:10px 4px;position:relative}
+.b-dia::after{content:"";position:absolute;right:-1px;top:8px;bottom:8px;border-right:3px dotted var(--surface)}
+.b-dia small{font:700 .7rem var(--body);opacity:.9}
+.b-dia b{font-size:1.9rem;margin:3px 0}
+.b-dia span{font-size:.74rem;font-weight:500}
+.b-txt{padding:12px 14px;display:grid;align-content:start;gap:4px;min-width:0}
+.b-txt h3{font-size:1rem;line-height:1.15;overflow-wrap:anywhere}
+.b-txt p{margin:0;color:var(--muted);font-size:.8rem}
+.b-quando{font-size:.76rem;font-weight:700;color:var(--cor)}
+.bilhete.agora .b-quando::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:currentColor;margin-right:6px;animation:pisca 1.4s infinite}
+
+/* ===== cartões coloridos por tipo ===== */
+.card,.patro{border-radius:20px}
+.card{--tc:var(--pine);border:0;box-shadow:var(--sombra);position:relative;overflow:hidden;transition:opacity .5s,transform .5s cubic-bezier(.2,1.2,.4,1),box-shadow .25s}
+.card::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:4px;border-radius:0 4px 4px 0;background:var(--tc)}
+.card[data-t="praca"]{--tc:#D99A0B}.card[data-t="lago"]{--tc:var(--lago)}.card[data-t="rota"]{--tc:var(--lavanda)}
+.card[data-t="atracao"]{--tc:var(--coral)}.card[data-t="praia"]{--tc:#0FA3A0}.card[data-t="cachoeira"]{--tc:var(--hort)}
+.card[data-t="shopping"]{--tc:#C23B85}.card[data-t="evento"]{--tc:var(--uva)}
+.ico{background:color-mix(in srgb,var(--tc,var(--pine)) 16%,var(--surface));border-radius:16px}
+.card.vis:hover{transform:translateY(-3px);box-shadow:0 18px 34px -16px color-mix(in srgb,var(--tc) 60%,transparent)}
+.card:active{transform:scale(.97)}
+.data{background:linear-gradient(160deg,var(--uva),var(--lavanda));border-radius:14px}
+.grupo{grid-column:1/-1;display:flex;align-items:center;gap:8px;margin:10px 0 0;font-family:var(--display);font-weight:700;font-size:1.05rem}
+.grupo::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--gc,var(--uva))}
+.grupo:first-child{margin-top:0}
+
+/* mapa */
+#mapa{background:radial-gradient(120% 90% at 30% 20%,#1B5446,var(--map))}
+.mun.tem{fill:color-mix(in srgb,var(--acc) 45%,transparent)}
+.pin{box-shadow:0 4px 12px rgba(0,0,0,.4)}
+
+/* anuncie */
+.anuncie{background:linear-gradient(150deg,#123F33,#1C2E5C 70%,#4A1E48);position:relative;overflow:hidden}
+.anuncie::after{content:"";position:absolute;width:260px;height:260px;right:-90px;top:-90px;border-radius:50%;background:radial-gradient(var(--sol),transparent 65%);opacity:.35;animation:respira 6s ease-in-out infinite}
+.anuncie > *{position:relative;z-index:1}
+
+/* barra inferior flutuante */
+.abas{left:10px;right:10px;bottom:calc(10px + var(--extra,0px));border-radius:24px;border:1px solid color-mix(in srgb,var(--line) 70%,transparent);background:color-mix(in srgb,var(--surface) 86%,transparent);-webkit-backdrop-filter:blur(16px) saturate(1.4);backdrop-filter:blur(16px) saturate(1.4);box-shadow:0 14px 34px -14px rgba(8,30,24,.45);padding:6px}
+.abas::after{display:none}
+.abas button{border-radius:18px;transition:color .25s,background .3s}
+.abas button[aria-current="true"]{color:#fff;background:var(--acc)}
+.abas button[aria-current="true"] span{transform:translateY(-1px) scale(1.12)}
+.abas button[aria-current="true"]::before{display:none}
+
+/* ficha */
+dialog{border-radius:28px 28px 0 0}
+.ficha h2{font-size:1.8rem}
+.btn.pri{background:var(--acc);border-color:var(--acc)}
+
+/* confete */
+.confete{position:fixed;z-index:100;width:9px;height:14px;border-radius:2px;pointer-events:none}
+
+/* voltar ao topo */
+.topo-btn{position:fixed;right:14px;bottom:calc(98px + var(--extra,0px));z-index:39;width:46px;height:46px;border:0;border-radius:16px;background:var(--ink);color:var(--bg);font-size:1.2rem;box-shadow:var(--sombra);opacity:0;transform:translateY(12px) scale(.9);pointer-events:none;transition:opacity .25s,transform .25s}
+.topo-btn.mostra{opacity:1;transform:none;pointer-events:auto}
+
+@media (min-width:960px){
+  body{padding-bottom:0}
+  .cena{height:280px;border-radius:0 0 34px 34px}
+  .semana{margin:24px 0 4px}.semana-cab,.trilho{padding-left:0;padding-right:0}
+  .bilhete{width:300px}
+  .topo-btn{bottom:24px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .px1,.px2,.px3,.px4{transform:none}
+}
+</style>
 </head>
 <body data-v="lugares">
 <script>if(/netlify\.app$/i.test(location.hostname)) document.documentElement.style.setProperty('--extra','62px');</script>
 
+<div class="progresso" id="prog"></div>
 <header class="topo">
   <div class="topo-l">
-    <div class="marca">Serra <i>Aberta</i></div>
+    <div class="marca"><svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="gMarca" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#12614B"/><stop offset="1" stop-color="#0F8FA6"/></linearGradient></defs><rect width="64" height="64" rx="16" fill="url(#gMarca)"/><path d="M6 50l18-24 10 13 8-9 16 20z" fill="#fff"/><circle cx="46" cy="18" r="7" fill="#F2B21B"/></svg><span>Serra <i>Aberta</i></span></div>
     <button class="atual" id="btnAtual"><span class="vivo"></span><span id="txtAtual">Atualizando</span></button>
   </div>
   <div class="regioes" id="regioes" role="group" aria-label="Região"></div>
@@ -304,19 +471,25 @@ dialog[open]{animation:folha .36s cubic-bezier(.2,1.1,.3,1)}
 
   <div>
   <section class="vista" id="vLugares">
-    <div class="cena" aria-hidden="true">
+    <div class="cena" id="cena" data-ceu="dia" aria-hidden="true">
       <svg viewBox="0 0 400 150" preserveAspectRatio="xMidYMax slice">
-        <circle class="sol-c" cx="320" cy="38" r="20"/>
+        <defs>
+          <linearGradient id="gCeu" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="c1" stop-color="#3F7FE8"/><stop offset=".62" class="c2" stop-color="#8EC0FA"/><stop offset="1" class="c3" stop-color="#D9EEFF"/></linearGradient>
+          <radialGradient id="gSol"><stop offset="0" stop-color="#FFF6CF"/><stop offset=".5" stop-color="#FFD25A" stop-opacity=".7"/><stop offset="1" stop-color="#FFD25A" stop-opacity="0"/></radialGradient>
+        </defs>
+        <rect x="-60" y="-20" width="520" height="190" fill="url(#gCeu)"/>
+        <g class="estrelas"><circle cx="30" cy="18" r=".9"/><circle cx="78" cy="40" r=".7"/><circle cx="120" cy="12" r="1.1"/><circle cx="170" cy="34" r=".8"/><circle cx="215" cy="16" r=".7"/><circle cx="252" cy="46" r="1"/><circle cx="286" cy="10" r=".8"/><circle cx="356" cy="22" r=".9"/><circle cx="380" cy="52" r=".7"/><circle cx="58" cy="62" r=".6"/><circle cx="146" cy="58" r=".7"/><circle cx="200" cy="64" r=".6"/></g>
+        <g class="px1"><circle class="sol-c" cx="318" cy="40" r="36" fill="url(#gSol)"/><circle class="sol-n" cx="318" cy="40" r="14"/></g>
         <g class="nuvem n1"><ellipse cx="0" cy="30" rx="26" ry="9"/><ellipse cx="18" cy="24" rx="18" ry="9"/></g>
         <g class="nuvem n2"><ellipse cx="0" cy="58" rx="30" ry="8"/><ellipse cx="-16" cy="52" rx="16" ry="8"/></g>
         <g class="nuvem n3"><ellipse cx="0" cy="14" rx="20" ry="6"/></g>
-        <path class="mo1" d="M0 150V96q50-30 100-6t100-10 100 14 100 2q50-30 100-6t100-10 100 14 100 2V150z"/>
-        <g class="balao"><g><path d="M0 70c-11 0-17-8-17-17s8-17 17-17 17 8 17 17-6 17-17 17z" fill="#E9A91F"/><path d="M0 36c-5 4-7 11-7 17s2 13 7 17c5-4 7-11 7-17s-2-13-7-17z" fill="#7B2150"/><rect x="-4" y="74" width="8" height="6" rx="1" fill="#5a3a1a"/><path d="M-6 68l3 6M6 68l-3 6" stroke="#5a3a1a" stroke-width=".8"/></g></g>
-        <g transform="translate(0 -4) scale(.6)"><g class="balao b2"><g><path d="M0 70c-11 0-17-8-17-17s8-17 17-17 17 8 17 17-6 17-17 17z" fill="#4D63D1"/><path d="M0 36c-5 4-7 11-7 17s2 13 7 17c5-4 7-11 7-17s-2-13-7-17z" fill="#fff"/><rect x="-4" y="74" width="8" height="6" rx="1" fill="#5a3a1a"/></g></g></g>
-        <path class="mo2" d="M0 150v-34q40-22 90-8t110-12 100 16 100 4q40-22 90-8t110-12 100 16 100 4v34z"/>
-        <g class="mo3"><path d="M0 150v-18q60-16 120-4t140-8 140 12q60-16 120-4t140-8 140 12v18z"/>
-          <g id="arau"></g></g>
+        <g class="px2"><path class="mo1" d="M0 150V96q50-30 100-6t100-10 100 14 100 2q50-30 100-6t100-10 100 14 100 2V150z"/></g>
+        <g id="baloes"></g>
+        <g class="px3"><path class="mo2" d="M0 150v-34q40-22 90-8t110-12 100 16 100 4q40-22 90-8t110-12 100 16 100 4v34z"/></g>
+        <g class="px4"><g class="mo3"><path d="M0 150v-18q60-16 120-4t140-8 140 12q60-16 120-4t140-8 140 12v18z"/>
+          <g id="arau"></g></g></g>
       </svg>
+      <span class="dica-cena" id="dicaCena">Toque nos balões</span>
     </div>
     <div class="hero">
       <h1>Onde ir hoje em<br><span class="roda" id="roda">Caxias do Sul</span>?</h1>
@@ -326,7 +499,15 @@ dialog[open]{animation:folha .36s cubic-bezier(.2,1.1,.3,1)}
         <input id="q" type="search" placeholder="Buscar em todo o estado" aria-label="Buscar lugar, bairro ou cidade" enterkeyhint="search">
         <button id="limpa" aria-label="Limpar busca" hidden>✕</button>
       </div>
+      <div class="acoes-hero">
+        <button class="btn-sorte" id="sorte"><span class="dado">🎲</span>Me surpreenda</button>
+        <button class="btn-agenda-h" id="irAgendaH">📅 Ver a agenda</button>
+      </div>
     </div>
+    <section class="semana" id="semana" aria-labelledby="semanaTit" hidden>
+      <div class="semana-cab"><h2 id="semanaTit">Nesta semana</h2><button id="verAgenda">Agenda completa</button></div>
+      <div class="trilho" id="trilho"></div>
+    </section>
     <div class="cab"><h2 id="titLugares">Lugares</h2><small id="contLugares"></small></div>
     <div class="grade" id="grade"></div>
   </section>
@@ -351,7 +532,7 @@ dialog[open]{animation:folha .36s cubic-bezier(.2,1.1,.3,1)}
       </div>
       <p class="ctt">WhatsApp (54) 99692-8531<br>Dani__mf@hotmail.com</p>
     </div>
-    <p class="nota">Limites municipais conforme a malha do IBGE. As posições dos marcadores são aproximadas; o botão Abrir no Google Maps leva ao endereço. Valores e horários mudam: confirme com o local antes de sair. Agenda conferida em 04/10/2026. Os lugares fora da Serra ainda não foram conferidos um a um.</p>
+    <p class="nota">Limites municipais conforme a malha do IBGE. As posições dos marcadores são aproximadas; o botão Abrir no Google Maps leva ao endereço. Valores e horários mudam: confirme com o local antes de sair. Agenda conferida em 18/10/2026. Os lugares fora da Serra ainda não foram conferidos um a um.</p>
   </section>
   </div>
  </div>
@@ -687,6 +868,7 @@ dialog[open]{animation:folha .36s cubic-bezier(.2,1.1,.3,1)}
   <button data-v="anuncie"><span>📣</span>Anuncie</button>
 </nav>
 
+<button class="topo-btn" id="topoBtn" aria-label="Voltar ao topo">↑</button>
 <dialog id="ficha" aria-labelledby="fNome"><div class="ficha" id="fichaC"></div></dialog>
 
 <script>
@@ -2086,22 +2268,38 @@ const LUGARES = L.map(a => {
 });
 
 const EVENTOS = [
- {c:'caxias-do-sul',p:'gratis',a:1,n:'42ª Feira do Livro de Caxias do Sul',i:'2026-10-02',f:'2026-10-18',b:'Praça Dante Alighieri',lat:-29.168,lon:-51.1795,d:'Bancas de livros, sessões de autógrafos, conversas com autores e apresentações culturais.'},
- {c:'bento-goncalves',p:'consulte',a:1,n:'8º Festival de Balonismo',i:'2026-10-09',f:'2026-10-12',b:'Fundaparque',lat:-29.160,lon:-51.527,d:'Quatro dias de balões no céu de Bento, com voos competitivos, Night Glow e mais de 30 atrações.'},
- {c:'caxias-do-sul',p:'consulte',a:0,n:'Mercopar 2026',i:'2026-10-20',f:'2026-10-23',b:'Pavilhões da Festa da Uva',lat:-29.150,lon:-51.200,d:'35ª edição da feira de inovação industrial.'},
- {c:'gramado',p:'misto',a:1,n:'41º Natal Luz de Gramado',i:'2026-10-22',f:'2027-01-17',b:'Centro de Gramado',lat:-29.3788,lon:-50.8748,d:'Vila de Natal, Show de Acendimento e Parada de Natal são gratuitos. Grande Desfile e Nativitaten têm ingresso.',k:'Abertura oficial às 19h do dia 22 de outubro.'},
+ // ---------- SERRA GAÚCHA ----------
+ {c:'caxias-do-sul',p:'gratis',a:1,n:'42ª Feira do Livro de Caxias do Sul',i:'2026-10-02',f:'2026-10-18',b:'Praça Dante Alighieri',lat:-29.168,lon:-51.1795,d:'Último dia da feira: bancas de livros, sessões de autógrafos e apresentações culturais na praça, até as 20h.'},
+ {c:'caxias-do-sul',p:'gratis',a:0,n:'Moinho Cultural: Passeio no Céu',i:'2026-10-18',f:'2026-10-18',b:'Centro Cultural Moinho da Cascata',d:'Espetáculo infantil gratuito na programação de fim de semana do Moinho Cultural.'},
+ {c:'caxias-do-sul',p:'gratis',a:0,n:'Moinho Cultural: As Aventuras do Fusca à Vela',i:'2026-10-25',f:'2026-10-25',b:'Centro Cultural Moinho da Cascata',d:'Mais um espetáculo infantil gratuito no domingo do Moinho Cultural.'},
+ {c:'caxias-do-sul',p:'consulte',a:0,n:'Exposição Grande Sertão, de Graça Craidy',i:'2026-10-18',f:'2026-10-29',b:'Galeria Municipal de Arte Gerd Bornheim',d:'Mostra de pinturas da artista Graça Craidy na galeria municipal.'},
+ {c:'caxias-do-sul',p:'consulte',a:0,n:'Mercopar 2026',i:'2026-10-20',f:'2026-10-23',b:'Pavilhões da Festa da Uva',lat:-29.150,lon:-51.200,d:'35ª Feira de Inovação Industrial. As palestras do Palco Conhecimento e do Palco Conexões têm acesso gratuito.',k:'Inscrições e horários em mercopar.com.br.'},
  {c:'caxias-do-sul',p:'consulte',a:0,n:'Sorveteria da Mel',i:'2026-10-24',f:'2026-10-25',b:'Villagio Caxias',lat:-29.176,lon:-51.218,d:'Atração itinerante com atividades para o público infantil.'},
- {c:'canela',p:'gratis',a:1,n:'Sonho de Natal de Canela',i:'2026-10-30',f:'2027-01-10',b:'Praça João Corrêa e Catedral de Pedra',lat:-29.3643,lon:-50.814,d:'Programação natalina gratuita no centro de Canela.'},
  {c:'caxias-do-sul',p:'gratis',a:0,n:'Feira Bêrga',i:'2026-11-09',f:'2026-11-14',b:'Prataviera Shopping',lat:-29.1685,lon:-51.181,d:'Feira de economia criativa com marcas autorais, arte e gastronomia. Entrada gratuita.'},
- {c:'nova-petropolis',p:'gratis',a:1,n:'Magia do Natal de Nova Petrópolis',i:'2026-11-14',f:'2027-01-03',b:'Rua Coberta e Praça das Flores',lat:-29.3763,lon:-51.1122,d:'Feira natalina com produtos, comidas e artesanato na praça central.'},
+ {c:'bento-goncalves',p:'consulte',a:1,n:'41ª Feira do Livro de Bento Gonçalves',i:'2026-10-14',f:'2026-10-24',b:'Via del Vino',lat:-29.1695,lon:-51.519,d:'Mais de 200 atividades entre bancas, autores, contação de histórias e programação nas escolas.'},
+ {c:'bento-goncalves',p:'consulte',a:0,n:'3ª Mostra de Abelhas sem Ferrão',i:'2026-10-16',f:'2026-10-18',b:'Rua Coberta',d:'Exposição sobre abelhas nativas, criação e produtos, no último dia da mostra.'},
  {c:'bento-goncalves',p:'consulte',a:1,n:'Degusta Cidade Alta',i:'2026-11-14',f:'2026-11-14',b:'Praça das Rosas',lat:-29.165,lon:-51.510,d:'Encontro de gastronomia, vinhos e cultura na praça, a partir das 16h.'},
- {c:'nova-petropolis',p:'consulte',a:1,n:'Oktoberfest de Nova Petrópolis',i:'2026-10-02',f:'2026-10-12',b:'Linha Imperial',d:'Festa germânica na Linha Imperial, com trem gratuito saindo da Praça das Flores.'},
- {c:'santa-cruz-do-sul',p:'misto',a:1,n:'41ª Oktoberfest de Santa Cruz do Sul',i:'2026-10-08',f:'2026-10-25',b:'Parque da Oktoberfest',d:'Shows, desfiles e cultura alemã. Entrada gratuita em 8 e 15/out; crianças até 11 anos grátis em 12/out e 55+ grátis em 22/out. Demais dias de R$ 15 a R$ 35.'},
- {c:'santa-rosa',p:'consulte',a:0,n:'Oktoberfest de Santa Rosa',i:'2026-10-09',f:'2026-10-17',b:'Santa Rosa',d:'Bailes da Oktoberfest nos dias 9, 10, 16 e 17 de outubro.'},
- {c:'igrejinha',p:'consulte',a:1,n:'37ª Oktoberfest de Igrejinha',i:'2026-10-09',f:'2026-10-18',b:'Parque de Eventos Almiro Grings',d:'Uma das maiores festas germânicas do estado, com shows, desfiles e gastronomia típica.'},
- {c:'porto-alegre',p:'gratis',a:1,n:'Oktoberfest no Centro Histórico',i:'2026-10-10',f:'2026-10-10',b:'Rua Sete de Setembro e Praça da Alfândega',d:'Um dia de festa germânica no Centro Histórico, perto do Mercado Público.'},
- {c:'cerro-largo',p:'misto',a:1,n:'Oktoberfest Missões',i:'2026-10-12',f:'2026-10-18',b:'Parque Municipal de Exposições de Cerro Largo',d:'Sete dias de festa. Shows do Palco Sicredi gratuitos; bailes de chopp em 15 e 17/out são pagos.'},
- {c:'porto-alegre',p:'gratis',a:1,n:'Feira do Livro de Porto Alegre',i:'2026-10-30',f:'2026-11-15',b:'Praça da Alfândega',d:'A tradicional feira do livro na praça, com bancas, autógrafos e programação cultural.'}
+ {c:'garibaldi',p:'gratis',a:0,n:'Exposição de Orquídeas de Garibaldi',i:'2026-10-17',f:'2026-10-18',b:'Bairro Alfândega',d:'Exposição com venda de plantas, oficinas e feira de artesanato. Entrada gratuita.'},
+ {c:'garibaldi',p:'consulte',a:1,n:'Feira do Livro de Garibaldi',i:'2026-10-21',f:'2026-10-24',b:'Praça Loureiro da Silva',d:'Feira do livro na praça, dentro da programação dos 126 anos de Garibaldi.'},
+ {c:'garibaldi',p:'consulte',a:0,n:'Gincana Municipal dos 126 anos',i:'2026-10-30',f:'2026-11-01',b:'Ginásio Municipal de Esportes',d:'Gincana de aniversário da cidade. Abertura dia 30 às 19h30; no dia 31 tem missa festiva às 17h na Igreja Matriz.'},
+ {c:'gramado',p:'consulte',a:1,n:'18º Festival de Cultura e Gastronomia de Gramado',i:'2026-10-09',f:'2026-10-18',b:'Lago Joaquina Rita Bier',lat:-29.3925,lon:-50.8735,d:'Último dia do festival, com gastronomia e atrações culturais à beira do lago.'},
+ {c:'gramado',p:'misto',a:1,n:'41º Natal Luz de Gramado',i:'2026-10-22',f:'2027-01-17',b:'Centro de Gramado',lat:-29.3788,lon:-50.8748,d:'Vila de Natal, Show de Acendimento e Parada de Natal são gratuitos. Grande Desfile e Nativitaten têm ingresso.',k:'Abertura oficial às 19h do dia 22 de outubro.'},
+ {c:'canela',p:'gratis',a:1,n:'Sonho de Natal de Canela',i:'2026-10-30',f:'2027-01-10',b:'Praça João Corrêa e Catedral de Pedra',lat:-29.3643,lon:-50.814,d:'Programação natalina gratuita no centro de Canela.'},
+ {c:'nova-petropolis',p:'gratis',a:1,n:'Magia do Natal de Nova Petrópolis',i:'2026-11-14',f:'2027-01-03',b:'Rua Coberta e Praça das Flores',lat:-29.3763,lon:-51.1122,d:'Feira natalina com produtos, comidas e artesanato na praça central.'},
+ {c:'sao-marcos',p:'consulte',a:1,n:'Fenasuco 2026',i:'2026-10-16',f:'2026-10-18',b:'São Marcos',d:'Festa do suco de uva, com gastronomia, produtores e atrações. Último dia até as 20h.'},
+ {c:'sao-marcos',p:'consulte',a:1,n:'5º Encontro de Caminhões Antigos',i:'2026-10-16',f:'2026-10-18',b:'São Marcos',d:'Exposição de caminhões antigos na cidade conhecida como capital do caminhoneiro.'},
+ {c:'flores-da-cunha',p:'consulte',a:0,n:'Festival Melhores Vinhos 2026',i:'2026-11-06',f:'2026-11-08',b:'Parque da Vindima Eloy Kunz',d:'Degustação dos vinhos premiados da região no Parque da Vindima.'},
+ {c:'igrejinha',p:'consulte',a:1,n:'37ª Oktoberfest de Igrejinha',i:'2026-10-09',f:'2026-10-18',b:'Parque de Eventos Almiro Grings',d:'Último dia de uma das maiores festas germânicas do estado, com shows, desfiles e gastronomia típica.'},
+ // ---------- OUTRAS REGIÕES ----------
+ {c:'bom-principio',p:'consulte',a:1,n:'Old Cars Morango 2026',i:'2026-10-18',f:'2026-10-18',b:'Bom Princípio',d:'Encontro de carros antigos na capital do morango, a partir das 9h.'},
+ {c:'santa-cruz-do-sul',p:'misto',a:1,n:'41ª Oktoberfest de Santa Cruz do Sul',i:'2026-10-08',f:'2026-10-25',b:'Parque da Oktoberfest',d:'Shows, desfiles e cultura alemã. Pessoas com 55 anos ou mais entram grátis em 22/out. Demais dias de R$ 15 a R$ 35.'},
+ {c:'cerro-largo',p:'misto',a:1,n:'Oktoberfest Missões',i:'2026-10-12',f:'2026-10-18',b:'Parque Municipal de Exposições de Cerro Largo',d:'Último dia de festa. Shows do Palco Sicredi gratuitos.'},
+ {c:'pelotas',p:'consulte',a:1,n:'8ª Oktoberfest Pelotas',i:'2026-10-16',f:'2026-10-18',b:'Parque de Eventos Morada do Sol',d:'Festa germânica no Morada do Sol. Quem for com traje típico alemão entra de graça.'},
+ {c:'porto-alegre',p:'pago',a:0,n:'Dionne Warwick: turnê de despedida',i:'2026-10-21',f:'2026-10-21',b:'Auditório Araújo Vianna',lat:-30.0365,lon:-51.2135,d:'Show da turnê Over and Out, às 21h, no Parque da Redenção. Ingressos no Sympla.'},
+ {c:'porto-alegre',p:'pago',a:0,n:'Os Paralamas do Sucesso: Clássicos',i:'2026-10-30',f:'2026-10-30',b:'Salão de Atos da PUCRS',d:'Show com os maiores sucessos da banda, às 21h.'},
+ {c:'porto-alegre',p:'gratis',a:0,n:'Exposição André Severo no MARGS',i:'2026-10-18',f:'2026-11-15',b:'MARGS, Praça da Alfândega',lat:-30.0279,lon:-51.2306,d:'Mostra A onda de Gustave Courbet. Entrada gratuita, de terça a domingo, das 10h às 19h.'},
+ {c:'porto-alegre',p:'gratis',a:1,n:'72ª Feira do Livro de Porto Alegre',i:'2026-10-30',f:'2026-11-15',b:'Praça da Alfândega',lat:-30.0283,lon:-51.2310,d:'A tradicional feira do livro na praça, com bancas, autógrafos e programação cultural.'},
+ {c:'santa-maria',p:'consulte',a:1,n:'Festival do Xis de Santa Maria',i:'2026-11-13',f:'2026-11-15',b:'Santa Maria',d:'Festival dedicado ao xis, o sanduíche mais gaúcho de todos.'}
 ];
 // evento sem coordenada própria fica no centro da cidade
 for(const e of EVENTOS) if(e.lat==null){ e.lat = CIDADES[e.c].lat+0.002; e.lon = CIDADES[e.c].lon+0.002; }
@@ -2185,6 +2383,7 @@ async function atualizar(){
   comLugar = {}; for(const x of itens) comLugar[x.c] = (comLugar[x.c]||0)+1;
   selReg = null; ultima = new Date();
   $('#faixa').innerHTML = [0,1].map(() => evs.map(e => '<span>📅 '+esc(e.n)+', '+CIDADES[e.c].nome+(e.agora ? ', até '+fmt(e._f) : ', começa '+fmt(e._i))+'</span>').join('')).join('');
+  { const fx = $('#faixa'); requestAnimationFrame(() => { const w = fx.scrollWidth/2; fx.style.animationDuration = Math.max(30, w/38)+'s'; }); }
   montarPins(); desenhar(); relogio();
 }
 function relogio(){
@@ -2234,9 +2433,10 @@ function chip(txt, on, fn, cls){
 function montarChips(){
   const rg = $('#regioes');
   if(!rg.children.length) for(const r of ['serra','litoral','fronteira','rs']){
-    const b = document.createElement('button'); b.className = 'reg'; b.dataset.r = r; b.textContent = REG[r].nome; b.onclick = () => irRegiao(r); rg.append(b);
+    const b = document.createElement('button'); b.className = 'reg'; b.dataset.r = r; b.innerHTML = '<span>'+REG[r].nome+'</span>'; b.onclick = () => irRegiao(r); rg.append(b);
   }
   [...rg.children].forEach(b => b.setAttribute('aria-pressed', b.dataset.r===estado.reg));
+  document.body.dataset.reg = estado.reg;
   const s = $('#selCidade');
   if(selReg !== estado.reg){ // refaz a lista de cidades quando a região muda
     selReg = estado.reg; s.textContent = '';
@@ -2286,7 +2486,7 @@ const olho = 'IntersectionObserver' in window ? new IntersectionObserver(es => e
 function revelar(el, k){ el.style.transitionDelay = Math.min(k*45,270)+'ms'; if(olho) olho.observe(el); else el.classList.add('vis'); }
 function tagPreco(p){ return '<span class="tag '+(p==='consulte'?'':p)+'">'+PRECO[p]+'</span>'; }
 function cartao(x, k){
-  const b = document.createElement('button'); b.className = 'card';
+  const b = document.createElement('button'); b.className = 'card'; b.dataset.t = x.t;
   const ac = acesso(x), onde = (x.b ? x.b+', ' : '')+CIDADES[x.c].nome;
   if(x.t==='evento'){
     const quando = x.i===x.f ? fmt(x._i) : fmt(x._i)+' a '+fmt(x._f);
@@ -2322,7 +2522,13 @@ function desenhar(){
   const ag = $('#agenda'); ag.textContent = '';
   $('#contAgenda').textContent = evs.length+(evs.length===1?' evento ':' eventos ')+nomeC;
   if(!evs.length) ag.append(vazio('Nenhum evento '+nomeC+' com esses filtros','Tire um filtro ou escolha outra região.'));
-  evs.forEach((e,k) => ag.append(cartao(e,k)));
+  { const hj = new Date(); hj.setHours(0,0,0,0); const sem = new Date(hj); sem.setDate(sem.getDate()+7); let ult = '';
+    evs.forEach((e,k) => {
+      const gr = e.agora ? 'Acontecendo agora' : e._i <= sem ? 'Nos próximos 7 dias' : 'Mais adiante';
+      if(gr!==ult){ ult = gr; const h = document.createElement('p'); h.className = 'grupo'; h.textContent = gr;
+        h.style.setProperty('--gc', gr==='Acontecendo agora' ? 'var(--coral)' : gr==='Mais adiante' ? 'var(--lavanda)' : 'var(--sol)'); ag.append(h); }
+      ag.append(cartao(e,k));
+    }); }
 
   const g = $('#grade'); g.textContent = '';
   if(estado.tipo==='promo'){
@@ -2361,6 +2567,7 @@ function desenhar(){
   const ml = $('#mapaLista'); ml.textContent = '';
   if(estado.cidade!=='todas' && !estado.q) lista.forEach((x,k) => ml.append(cartao(x,k)));
   atualizarPins();
+  desenharSemana();
 }
 
 /* ===================== ABAS ===================== */
@@ -2563,6 +2770,101 @@ function medirRodape(){
 addEventListener('resize', medirRodape);
 new MutationObserver(medirRodape).observe(document.body, {childList:true});
 new MutationObserver(medirRodape).observe(document.documentElement, {childList:true});
+
+
+/* ===================== VISUAL 2026: interações ===================== */
+const MOVE = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+const CORES = ['#12614B','#F2B21B','#E8573F','#8E1F4F','#3D63DB','#0F8FA6','#7B5BD6'];
+function festa(x, y, n){
+  if(!MOVE || !document.body.animate) return;
+  for(let i=0;i<(n||26);i++){
+    const c = document.createElement('i'); c.className = 'confete';
+    c.style.left = x+'px'; c.style.top = y+'px'; c.style.background = CORES[i%CORES.length];
+    document.body.append(c);
+    const a = Math.random()*Math.PI*2, v = 70+Math.random()*130;
+    c.animate([{transform:'translate(-50%,-50%) rotate(0)',opacity:1},
+               {transform:'translate('+(Math.cos(a)*v)+'px,'+(Math.sin(a)*v-60)+'px) rotate('+(Math.random()*720-360)+'deg)',opacity:1,offset:.6},
+               {transform:'translate('+(Math.cos(a)*v*1.2)+'px,'+(Math.sin(a)*v+90)+'px) rotate('+(Math.random()*900)+'deg)',opacity:0}],
+              {duration:1100+Math.random()*600,easing:'cubic-bezier(.2,.7,.3,1)'}).onfinish = () => c.remove();
+  }
+}
+
+/* céu conforme a hora */
+function ceu(){
+  const h = new Date().getHours(), el = $('#cena'); if(!el) return;
+  el.dataset.ceu = h>=5 && h<9 ? 'manha' : h>=9 && h<16 ? 'dia' : h>=16 && h<19 ? 'tarde' : 'noite';
+}
+ceu(); setInterval(ceu, 10*60*1000);
+
+/* balões que dá para soltar */
+(function baloes(){
+  const g = $('#baloes'); if(!g) return;
+  const B = [[70,'#F2B21B','#8E1F4F',.95,34,-4],[190,'#E8573F','#FFF',.62,48,-20],[300,'#3D63DB','#F2B21B',.78,40,-12],[130,'#12614B','#F2B21B',.5,60,-30],[250,'#7B5BD6','#FFF',.45,56,-40]];
+  g.innerHTML = B.map(([y0,a,b,s,dur,dl],i) =>
+    '<g transform="translate(0 '+(i%2?-8:-2)+') scale('+s+')"><g class="balao bal" style="animation-duration:'+dur+'s;animation-delay:'+dl+'s"><g style="animation-duration:'+(3.6+i*.7)+'s"><g class="bal-s">'+
+    '<path d="M0 70c-11 0-17-8-17-17s8-17 17-17 17 8 17 17-6 17-17 17z" fill="'+a+'"/><path d="M0 36c-5 4-7 11-7 17s2 13 7 17c5-4 7-11 7-17s-2-13-7-17z" fill="'+b+'"/>'+
+    '<rect x="-4" y="74" width="8" height="6" rx="1" fill="#5a3a1a"/><path d="M-6 68l3 6M6 68l-3 6" stroke="#5a3a1a" stroke-width=".8"/></g></g></g></g>').join('');
+  let soltos = 0;
+  g.querySelectorAll('.bal').forEach(b => b.addEventListener('click', e => {
+    e.stopPropagation(); if(b.classList.contains('sobe')) return;
+    b.classList.add('sobe'); festa(e.clientX, e.clientY, 18); $('#dicaCena').classList.add('some');
+    medir('soltar_balao', {total: ++soltos});
+    setTimeout(() => b.classList.remove('sobe'), 3200);
+  }));
+  setTimeout(() => $('#dicaCena').classList.add('some'), 6000);
+  /* paralaxe: dedo/mouse e inclinação do celular */
+  const cena = $('#cena');
+  const mexe = (x, y) => { cena.style.setProperty('--px', x.toFixed(3)); cena.style.setProperty('--py', y.toFixed(3)); };
+  if(MOVE){
+    cena.addEventListener('pointermove', e => { const r = cena.getBoundingClientRect(); mexe((e.clientX-r.left)/r.width*2-1, (e.clientY-r.top)/r.height*2-1); });
+    cena.addEventListener('pointerleave', () => mexe(0,0));
+    addEventListener('deviceorientation', e => { if(e.gamma!=null) mexe(Math.max(-1,Math.min(1,e.gamma/30)), Math.max(-1,Math.min(1,(e.beta-45)/30))); });
+  }
+})();
+
+/* nesta semana */
+const DSEM = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+function desenharSemana(){
+  const box = $('#semana'), tr = $('#trilho'); if(!box) return;
+  const hoje = new Date(); hoje.setHours(0,0,0,0); const lim = new Date(hoje); lim.setDate(lim.getDate()+7);
+  let evs = itens.filter(x => x.t==='evento' && naReg(x.c) && x._i <= lim && x._f >= hoje);
+  if(estado.cidade!=='todas'){ const so = evs.filter(x => x.c===estado.cidade); if(so.length) evs = so; }
+  evs.sort((a,b) => (b.agora-a.agora) || (a._i-b._i));
+  tr.textContent = ''; box.hidden = !evs.length || estado.tipo==='promo';
+  $('#semanaTit').textContent = 'Nesta semana '+(estado.cidade!=='todas' && evs.every(x => x.c===estado.cidade) ? 'em '+CIDADES[estado.cidade].nome : REG[estado.reg].em);
+  evs.forEach((x,k) => {
+    const d = x.agora ? hoje : x._i, b = document.createElement('button');
+    b.className = 'bilhete'+(x.agora?' agora':''); b.style.setProperty('--cor', ['#8E1F4F','#12614B','#3D63DB','#E8573F','#7B5BD6','#0F8FA6','#C2621A'][k%7]);
+    const quando = x.agora ? (x._f.getTime()===hoje.getTime() ? 'Hoje é o último dia' : 'Acontecendo agora, até '+fmt(x._f)) : x.faltam===1 ? 'Começa amanhã' : 'Começa em '+x.faltam+' dias';
+    b.innerHTML = '<div class="b-dia"><small>'+(x.agora?'Hoje':DSEM[d.getDay()])+'</small><b>'+d.getDate()+'</b><span>'+MES[d.getMonth()]+'</span></div>'+
+      '<div class="b-txt"><span class="b-quando">'+quando+'</span><h3>'+esc(x.n)+'</h3><p>'+esc(CIDADES[x.c].nome)+'</p><div class="tags">'+tagPreco(x.p)+'</div></div>';
+    b.onclick = () => { medir('abrir_bilhete', {evento:x.n}); abrir(x.id); };
+    if(MOVE && b.animate) b.animate([{opacity:0,transform:'translateX(30px)'},{opacity:1,transform:'none'}], {duration:450, delay:Math.min(k,6)*70, easing:'cubic-bezier(.2,.9,.3,1)', fill:'backwards'});
+    tr.append(b);
+  });
+}
+$('#verAgenda').onclick = () => { if(matchMedia('(min-width:960px)').matches) $('#vAgenda').scrollIntoView({behavior:'smooth'}); else irVista('agenda'); };
+$('#irAgendaH').onclick = $('#verAgenda').onclick;
+
+/* me surpreenda */
+$('#sorte').onclick = e => {
+  const op = itens.filter(x => x.t!=='evento' && passa(x));
+  const pool = op.length ? op : itens.filter(x => x.t!=='evento' && naReg(x.c));
+  if(!pool.length) return;
+  const x = pool[Math.floor(Math.random()*pool.length)], bt = e.currentTarget, r = bt.getBoundingClientRect();
+  bt.classList.add('gira'); festa(r.left+r.width/2, r.top+r.height/2, 30);
+  medir('me_surpreenda', {lugar:x.n});
+  setTimeout(() => { bt.classList.remove('gira'); abrir(x.id); }, 420);
+};
+
+/* rolagem: barra de progresso e voltar ao topo */
+(function(){
+  const p = $('#prog'), t = $('#topoBtn'); let pend = false;
+  addEventListener('scroll', () => { if(pend) return; pend = true; requestAnimationFrame(() => {
+    const h = document.documentElement.scrollHeight - innerHeight; p.style.transform = 'scaleX('+(h>0 ? scrollY/h : 0)+')';
+    t.classList.toggle('mostra', scrollY > 700); pend = false; }); }, {passive:true});
+  t.onclick = () => scrollTo({top:0, behavior: MOVE ? 'smooth' : 'auto'});
+})();
 
 atualizar();
 </script>
