@@ -17,7 +17,10 @@
 <meta property="og:url" content="https://serraaberta.com.br/">
 <meta name="twitter:card" content="summary">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://serraaberta.com.br/#site","url":"https://serraaberta.com.br/","name":"Serra Aberta","inLanguage":"pt-BR","description":"Descubra onde ir no Rio Grande do Sul: parques, praças, praias, cachoeiras, mirantes e eventos na Serra Gaúcha, no Litoral e na Fronteira, com mapa e agenda atualizada."},{"@type":"Organization","@id":"https://serraaberta.com.br/#org","name":"Serra Aberta","url":"https://serraaberta.com.br/","email":"Dani__mf@hotmail.com","telephone":"+55-54-99692-8531","areaServed":{"@type":"State","name":"Rio Grande do Sul"}}]}</script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap"></noscript>
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-JJ6E8J56ZJ"></script>
 <script>
@@ -91,6 +94,7 @@ h1,h2,h3{font-family:var(--display);margin:0;line-height:1.05;letter-spacing:-.0
 .faixa span{margin-right:38px}
 @keyframes corre{to{transform:translateX(-50%)}}
 
+#regioes:empty{min-height:52px}.barra-f{min-height:54px}.faixa{min-height:34px}
 main{max-width:1240px;margin:0 auto;padding:0 14px 30px;min-width:0}
 
 /* cena animada */
@@ -185,7 +189,7 @@ body[data-v="lugares"] #vLugares,body[data-v="mapa"] #vMapa,body[data-v="agenda"
 .tag{font-size:.72rem;font-weight:700;padding:3px 8px;border-radius:999px;background:var(--chip)}
 .tag.gratis{background:color-mix(in srgb,var(--pine) 18%,transparent);color:var(--pine)}
 .tag.pago{background:color-mix(in srgb,var(--uva) 16%,transparent);color:var(--uva)}
-.tag.misto{background:color-mix(in srgb,var(--hort) 16%,transparent);color:var(--hort)}
+.tag.misto{background:color-mix(in srgb,var(--hort) 16%,transparent);color:color-mix(in srgb,var(--hort) 72%,var(--ink))}
 .data{display:grid;place-content:center;text-align:center;width:48px;height:54px;border-radius:12px;background:var(--uva);color:#fff;font-family:var(--display);line-height:1}
 .data b{font-size:1.35rem}.data span{font-size:.7rem;font-weight:500;margin-top:2px}
 .anuncio{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;border:2px dashed var(--sol);border-radius:18px;padding:14px;background:color-mix(in srgb,var(--sol) 10%,transparent)}
@@ -268,7 +272,7 @@ dialog[open]{animation:folha .36s cubic-bezier(.2,1.1,.3,1)}
   .faixa{margin:0;border-radius:0 0 14px 14px}
   .topo-l{max-width:1240px;margin:0 auto;padding:8px 28px}
 }
-.guia{max-width:1100px;margin:28px auto 0;padding:0 16px 24px;color:var(--ink)}
+.guia{content-visibility:auto;contain-intrinsic-size:auto 1200px;max-width:1100px;margin:28px auto 0;padding:0 16px 24px;color:var(--ink)}
 .guia h2{font-size:1.35rem;margin-bottom:8px}.guia>p{color:var(--muted);margin:0 0 12px}
 .guia details{background:var(--surface);border:1px solid var(--line);border-radius:14px;margin:0 0 10px;padding:0 14px}
 .guia summary{font-weight:700;padding:14px 0;cursor:pointer}
@@ -375,7 +379,7 @@ body{padding-bottom:calc(96px + var(--extra,0px));background:
 .bilhete:active{transform:scale(.97)}
 .b-dia{display:grid;place-content:center;text-align:center;background:var(--cor);color:#fff;font-family:var(--display);line-height:1;padding:10px 4px;position:relative}
 .b-dia::after{content:"";position:absolute;right:-1px;top:8px;bottom:8px;border-right:3px dotted var(--surface)}
-.b-dia small{font:700 .7rem var(--body);opacity:.9}
+.b-dia small{font:700 .7rem var(--body)}
 .b-dia b{font-size:1.9rem;margin:3px 0}
 .b-dia span{font-size:.74rem;font-weight:500}
 .b-txt{padding:12px 14px;display:grid;align-content:start;gap:4px;min-width:0}
@@ -2391,7 +2395,7 @@ async function atualizar(){
   selReg = null; ultima = new Date();
   $('#faixa').innerHTML = [0,1].map(() => evs.map(e => '<span>📅 '+esc(e.n)+', '+CIDADES[e.c].nome+(e.agora ? ', até '+fmt(e._f) : ', começa '+fmt(e._i))+'</span>').join('')).join('');
   { const fx = $('#faixa'); requestAnimationFrame(() => { const w = fx.scrollWidth/2; fx.style.animationDuration = Math.max(30, w/38)+'s'; }); }
-  montarPins(); desenhar(); relogio();
+  if(mapaPronto) montarPins(); desenhar(); relogio();
 }
 function relogio(){
   if(!ultima) return;
@@ -2583,7 +2587,7 @@ function irVista(v){
   document.body.dataset.v = v;
   document.querySelectorAll('.abas button').forEach(b => b.setAttribute('aria-current', b.dataset.v===v));
   window.scrollTo(0,0);
-  if(v==='mapa') requestAnimationFrame(() => focarMapa(false));
+  if(v==='mapa'){ if(!mapaPronto){ mapaPronto = true; fundo(); montarPins(); } requestAnimationFrame(() => focarMapa(false)); }
 }
 document.querySelectorAll('.abas button').forEach(b => b.onclick = () => irVista(b.dataset.v));
 irVista('lugares');
@@ -2628,12 +2632,13 @@ const LON0 = -57.6932174962, LAT0 = -27.0301134962, COS = 0.872, K = 1139.372392
 const px = lon => (lon-LON0)*COS*K, py = lat => (LAT0-lat)*K;
 const svg = $('#svg'), pins = $('#pins'), mapa = $('#mapa');
 let vista = {cx:MAPA_W/2, cy:MAPA_H/2, w:MAPA_W*1.05}, anim = null, nos = {}, marc = [], nv = -1;
-(function fundo(){
+var mapaPronto = false;
+function fundo(){
   let s = '';
   for(const k in CIDADES) if(CIDADES[k].geo) s += '<path class="mun" data-c="'+k+'" d="'+CIDADES[k].geo+'" vector-effect="non-scaling-stroke"/>';
   svg.innerHTML = s;
   svg.addEventListener('click', e => { const c = e.target.dataset && e.target.dataset.c; if(c) irCidade(c); });
-})();
+}
 // 0: estado (só municípios)  1: balões com contagem  2: balões com nome  3: marcadores dos lugares
 const nivel = () => vista.w < 460 ? 3 : vista.w < 1300 ? 2 : vista.w <= (estado.reg==='rs' ? 2700 : MAPA_W*1.3) ? 1 : 0;
 function montarPins(){
@@ -2651,6 +2656,7 @@ function montarPins(){
   focarMapa(false);
 }
 function atualizarPins(){
+  if(!mapaPronto) return;
   const naCidade = estado.cidade!=='todas' && !estado.q; nv = nivel();
   const cont = {}; for(const x of itens) if(passa(x,true)) cont[x.c] = (cont[x.c]||0)+1;
   for(const c in nos){
@@ -2841,7 +2847,7 @@ function desenharSemana(){
   $('#semanaTit').textContent = 'Nesta semana '+(estado.cidade!=='todas' && evs.every(x => x.c===estado.cidade) ? 'em '+CIDADES[estado.cidade].nome : REG[estado.reg].em);
   evs.forEach((x,k) => {
     const d = x.agora ? hoje : x._i, b = document.createElement('button');
-    b.className = 'bilhete'+(x.agora?' agora':''); b.style.setProperty('--cor', ['#8E1F4F','#12614B','#3D63DB','#E8573F','#7B5BD6','#0F8FA6','#C2621A'][k%7]);
+    b.className = 'bilhete'+(x.agora?' agora':''); b.style.setProperty('--cor', ['#8E1F4F','#12614B','#3352C2','#C23F29','#6644C6','#0B6E80','#9E4C10'][k%7]);
     const quando = x.agora ? (x._f.getTime()===hoje.getTime() ? 'Hoje é o último dia' : 'Acontecendo agora, até '+fmt(x._f)) : x.faltam===1 ? 'Começa amanhã' : 'Começa em '+x.faltam+' dias';
     b.innerHTML = '<div class="b-dia"><small>'+(x.agora?'Hoje':DSEM[d.getDay()])+'</small><b>'+d.getDate()+'</b><span>'+MES[d.getMonth()]+'</span></div>'+
       '<div class="b-txt"><span class="b-quando">'+quando+'</span><h3>'+esc(x.n)+'</h3><p>'+esc(CIDADES[x.c].nome)+'</p><div class="tags">'+tagPreco(x.p)+'</div></div>';
