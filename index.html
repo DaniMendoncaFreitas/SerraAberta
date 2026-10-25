@@ -205,7 +205,7 @@ body[data-v="lugares"] #vLugares,body[data-v="mapa"] #vMapa,body[data-v="agenda"
 .patro .ico img{width:100%;height:100%;object-fit:contain;display:block}
 .patro h3{font-size:1.08rem;font-weight:700;line-height:1.15;overflow-wrap:anywhere}
 .patro p{margin:3px 0 8px;font-size:.88rem;color:var(--muted)}
-.tag.ad{background:var(--sol);color:var(--sol-ink)}
+.tag.ad{background:var(--sol);color:var(--sol-ink)}.tag.sug{background:color-mix(in srgb,var(--sol) 28%,transparent);color:var(--ink)}
 .vazio-msg{padding:28px 18px;border:1px dashed var(--line);border-radius:18px;color:var(--muted);text-align:center}
 .vazio-msg b{display:block;color:var(--ink);font-family:var(--display);font-size:1.15rem;margin-bottom:4px}
 .mais{width:100%;height:50px;margin-top:12px;border:1px solid var(--line);background:var(--surface);border-radius:14px;font-weight:700}
@@ -530,6 +530,7 @@ dialog{border-radius:28px 28px 0 0}
         <div><b>Destaque na lista</b><span>Seu lugar no topo dos resultados da sua cidade.</span></div>
         <div><b>Pin dourado no mapa</b><span>Marcador em destaque, visível assim que a cidade é aberta.</span></div>
         <div><b>Promoção da semana</b><span>Oferta com prazo, exibida no filtro Promoções.</span></div>
+        <div><b>Restaurante em destaque</b><span>Seu restaurante no topo do botão Onde almoçar da sua cidade, acima da sugestão.</span></div>
       </div>
       <div class="contatos">
         <a class="btn-zap" target="_blank" rel="noopener" href="https://wa.me/5554996928531?text=Ol%C3%A1%2C%20quero%20anunciar%20na%20Serra%20Aberta">💬 Chamar no WhatsApp</a>
@@ -900,6 +901,7 @@ const TIPOS = {
   praia:{nome:'Praias',um:'Praia',e:'🏖️'},
   cachoeira:{nome:'Cachoeiras',um:'Cachoeira',e:'💧'},
   shopping:{nome:'Compras',um:'Compras',e:'🛍️'},
+  restaurante:{nome:'Onde almoçar',um:'Restaurante',e:'🍽️'},
   evento:{nome:'Eventos',um:'Evento',e:'📅'}
 };
 const PRECO = {gratis:'Gratuito',pago:'Pago',misto:'Gratuito e pago',consulte:'Consulte valores'};
@@ -2263,8 +2265,33 @@ const L = [
  ["Xangri-lá","atracao","gratis",1,"Paróquia São Pedro","",null,null,"Igreja em Xangri-lá.",{"g":1}],
  ["Xangri-lá","praia","gratis",1,"Praia de Maristela","",null,null,"Praia em Xangri-lá.",{"g":1}]
 ];
+const RESTAURANTES = [
+ // ---------- ONDE ALMOÇAR: uma sugestão por cidade (pesquisa de outubro de 2026) ----------
+ // [cidade, "restaurante", "consulte", 0, nome, bairro/local, lat, lon, descrição, {hr: horário de almoço, k: dica}]
+ ["Antônio Prado","restaurante","consulte",0,"Nostra Cantina","RS-122, Bairro Industrial",-28.872796,-51.226814,"Comida típica da imigração italiana servida em sequência, começando pela sopa de capeletti. Tem armazém de produtos coloniais.",{"hr":"Almoço todos os dias","k":"Bom para quem chega pela RS-122: tem estacionamento amplo."}],
+ ["Bento Gonçalves","restaurante","consulte",0,"Casa Vanni","Caminhos de Pedra",null,null,"Cozinha italiana num casarão colonial do roteiro Caminhos de Pedra. O ravióli de ricota com nozes é um dos pratos mais pedidos.",{"hr":"Almoço todos os dias, 12h às 15h30","k":"Combine com o passeio pelos Caminhos de Pedra."}],
+ ["Cambará do Sul","restaurante","consulte",0,"Galpão Costaneira","Centro",null,null,"Buffet de comida campeira num galpão rústico, com lareira e música regional em alguns dias.",{"hr":"Almoço, confirme os dias","k":"Fica na Rua Dona Úrsula, perto do centro, a caminho dos cânions."}],
+ ["Canela","restaurante","consulte",0,"Empório Canela","Centro",null,null,"Buffet de comida regional no almoço, com loja de produtos da Serra ao lado.",{"hr":"Almoço todos os dias","k":"Fica na Rua Felisberto Soares, perto da Catedral de Pedra."}],
+ ["Carlos Barbosa","restaurante","consulte",0,"Casa Borsói","RST-470, km 233",null,null,"Cantina italiana de ambiente familiar. No almoço os pratos vêm em rodízio: risoto, nhoque, carnes e sobremesa.",{"hr":"Almoço de terça a domingo","k":"Na rodovia, fácil de parar no caminho entre Garibaldi e Carlos Barbosa."}],
+ ["Caxias do Sul","restaurante","consulte",0,"Galeteria Alvorada","Nossa Senhora de Lourdes",null,null,"Galeteria tradicional desde 1957: sopa de agnolini, galeto, polenta frita, massa caseira e sagu com creme, servidos à vontade.",{"hr":"Seg a sáb 11h às 14h; dom 11h às 14h","k":"O clássico galeto de Caxias, na Rua Os Dezoito do Forte."}],
+ ["Farroupilha","restaurante","consulte",0,"Restaurante Guaraipo","Do Parque",null,null,"Cozinha de chef com pratos variados, como costela cozida por 12 horas, frutos do mar e massas.",{"hr":"Almoço de terça a domingo","k":"Bom para um almoço diferente do tradicional galeto."}],
+ ["Flores da Cunha","restaurante","consulte",0,"Restaurante Dona Adélia","Otávio Rocha",null,null,"Comida típica italiana desde 1968, no distrito de Otávio Rocha: bife à milanesa, queijo frito e massas.",{"hr":"Almoço 11h30 às 13h30, com reserva","k":"Fica a uns 12 km do centro. Reserve antes de ir."}],
+ ["Garibaldi","restaurante","consulte",0,"Casa Di Paolo","BR-470, km 221 (Castello Benvenutti)",null,null,"Galeto e comida colonial italiana servidos à vontade, num castelo à beira da BR-470.",{"hr":"Almoço todos os dias, 11h30 às 15h","k":"Peça o queijo à milanesa e o capeletti."}],
+ ["Gramado","restaurante","consulte",0,"Mamma Mia","Av. das Hortênsias (entre Gramado e Canela)",null,null,"Rodízio de galeto com massas, polenta e sobremesa, num dos almoços mais tradicionais da cidade.",{"hr":"Almoço todos os dias, 11h30 às 15h30","k":"Na estrada entre Gramado e Canela."}],
+ ["Monte Belo do Sul","restaurante","consulte",0,"Francesco Trattoria","Centro",null,null,"Cozinha italiana regional num casarão restaurado em frente à praça da igreja. Nos fins de semana o almoço é em sequência.",{"hr":"Almoço de terça a domingo","k":"Reserve para o fim de semana."}],
+ ["Morro Reuter","restaurante","consulte",0,"Restaurante Vento Serrano","",null,null,"Buffet de comida alemã e brasileira com rodízio de carnes e muitas sobremesas. Tem animais e lago para as crianças.",{"hr":"Almoço, confirme os dias","k":"Bom para família com crianças."}],
+ ["Nova Pádua","restaurante","consulte",0,"Restaurante Susin & Bisotto","Belvedere Sonda",-29.0209,-51.34868,"Comida típica italiana no alto do Belvedere Sonda, com vista para o vale do Rio das Antas. Nos fins de semana é espeto corrido.",{"hr":"Almoço aos sábados e domingos","k":"Chegue cedo para pegar mesa perto da vista."}],
+ ["Nova Petrópolis","restaurante","consulte",0,"Restaurante Colina Verde","Vila Olinda (BR-116, km 185)",null,null,"Cozinha alemã e colonial com sequência de mais de 20 pratos servida na mesa. O bolinho de batata é famoso.",{"hr":"Almoço de terça a domingo, 11h30 às 15h","k":"Fica na entrada da cidade, pela BR-116."}],
+ ["Picada Café","restaurante","consulte",0,"Restaurante Becker","",-29.454495,-51.136516,"Comida colonial com influência alemã: pratos quentes, carnes, massas e saladas, em ambiente de família.",{"hr":"Almoço, confirme os dias","k":"Parada clássica de quem faz a Rota Romântica."}],
+ ["Pinto Bandeira","restaurante","consulte",0,"Nature Restaurante","Linha Amadeu, km 12 (Vinícola Don Giovanni)",null,null,"Cozinha contemporânea dentro da Vinícola Don Giovanni, com vista para os vinhedos e os vinhos da casa.",{"hr":"Terça a domingo, 10h às 18h","k":"Reserva recomendada."}],
+ ["São Francisco de Paula","restaurante","consulte",0,"Casa da Dinda Galeteria","Centro",null,null,"Galeto al primo canto com toques da Serra, como o espetinho de pinhão.",{"hr":"Ter a sáb 11h30 às 14h; dom só almoço","k":"Na Rua Três de Outubro, perto do Lago São Bernardo."}],
+ ["São Marcos","restaurante","consulte",0,"Restaurante Bresolin","Centro",null,null,"Buffet de comida italiana e caseira com churrasco e bastante sobremesa. Um dos mais conhecidos da cidade.",{"hr":"Seg a sáb 11h30 às 14h; dom até 14h","k":"Na Avenida Venâncio Aires, à beira da BR-116."}],
+ ["Três Coroas","restaurante","consulte",0,"Espaço Tibet","Águas Claras",null,null,"Primeiro restaurante tibetano do Brasil, comandado por um chef tibetano, perto do templo budista.",{"hr":"Sex, sáb, dom e feriados, 11h45 às 15h, com reserva","k":"Combine com a visita ao Templo Budista Chagdud Gonpa."}],
+ ["Vacaria","restaurante","consulte",0,"La Vecia Galeteria","",-28.510286,-50.930165,"Galeto al primo canto com massas caseiras, polenta e radicci com bacon servidos na mesa, em ambiente simples e familiar.",{"hr":"Almoço, confirme os dias","k":"Muito procurado no almoço de domingo."}],
+ ["Veranópolis","restaurante","consulte",0,"Mascaron Restaurante Giratório","BR-470, km 178 (Torre Mirante da Serra)",null,null,"Rodízio italiano no alto de uma torre que gira devagar e mostra a Serra em 360 graus.",{"hr":"Almoço de terça a domingo, 11h30 às 14h","k":"Nos fins de semana dá para reservar para 11h30 ou 12h."}]
+];
 const semPos = {};
-const LUGARES = L.map(a => {
+const LUGARES = L.concat(RESTAURANTES).map(a => {
   const c = slug(a[0]), C = CIDADES[c]; let lat = a[6], lon = a[7];
   if(lat==null){ // sem coordenada própria: espalha em volta do centro da cidade
     const i = semPos[c] = (semPos[c]||0)+1, r = 0.004+0.0032*Math.sqrt(i), g = i*2.39996;
@@ -2319,7 +2346,7 @@ for(const e of EVENTOS) if(e.lat==null){ e.lat = CIDADES[e.c].lat+0.002; e.lon =
 /* ===================== PLANILHA DE ANUNCIANTES =====================
    Colunas lidas (a ordem não importa, vale o título da coluna):
    Na coluna cidade vale o nome de uma cidade, uma região (serra, litoral, fronteira) ou em branco para o estado todo.
-   Nome | cidade | texto | inicio | fim | link (opcional) | tipo (opcional: destaque ou promoção) | logo (opcional: endereço da imagem ou link do Google Drive)
+   Nome | cidade | texto | inicio | fim | link (opcional) | tipo (opcional: destaque, promoção ou restaurante) | logo (opcional: endereço da imagem ou link do Google Drive)
    A planilha precisa estar compartilhada como "qualquer pessoa com o link pode ver". */
 const PLANILHA_ID = '1nKt5BctjoXNKoishcSu8LCwmn_ny6cJybsabz-dQQxU';
 let anunciosCache = [];
@@ -2362,7 +2389,7 @@ async function buscarAnuncios(){
       const dr = logo.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:export=\w+&)?id=)([\w-]+)/);
       if(dr) logo = 'https://drive.google.com/thumbnail?id='+dr[1]+'&sz=w400';
       else if(logo && !/^https?:\/\//i.test(logo)) logo = 'https://'+logo;
-      return {logo, n:val(r,'nome'), c:cidadePlan(val(r,'cidade')), d:val(r,'texto'), i:dataPlan(cel(r,'inicio')), f:dataPlan(cel(r,'fim')), link, promo:norm(val(r,'tipo')).startsWith('promo')};
+      return {logo, n:val(r,'nome'), c:cidadePlan(val(r,'cidade')), d:val(r,'texto'), i:dataPlan(cel(r,'inicio')), f:dataPlan(cel(r,'fim')), link, promo:norm(val(r,'tipo')).startsWith('promo'), rest:norm(val(r,'tipo')).startsWith('restaur')};
     });
   }catch(e){ /* sem internet ou planilha fechada: mantém os últimos anúncios lidos */ }
   return anunciosCache;
@@ -2393,7 +2420,7 @@ async function atualizar(){
   const evs = dados.eventos.map(e => { const i = dia(e.i), f = dia(e.f); return {...e, t:'evento', _i:i, _f:f, agora:hoje>=i&&hoje<=f, faltam:Math.round((i-hoje)/864e5)}; })
     .filter(e => e._f >= hoje).sort((a,b) => a._i-b._i);
   itens = [...evs, ...dados.lugares].map((x,k) => ({...x, id:k, busca:norm([x.n, x.b||'', CIDADES[x.c].nome, TIPOS[x.t].nome, x.d].join(' '))}));
-  comLugar = {}; for(const x of itens) comLugar[x.c] = (comLugar[x.c]||0)+1;
+  comLugar = {}; for(const x of itens) if(x.t!=='restaurante') comLugar[x.c] = (comLugar[x.c]||0)+1;
   selReg = null; ultima = new Date();
   $('#faixa').innerHTML = [0,1].map(() => evs.map(e => '<span>📅 '+esc(e.n)+', '+CIDADES[e.c].nome+(e.agora ? ', até '+fmt(e._f) : ', começa '+fmt(e._i))+'</span>').join('')).join('');
   { const fx = $('#faixa'); requestAnimationFrame(() => { const w = fx.scrollWidth/2; fx.style.animationDuration = Math.max(30, w/38)+'s'; }); }
@@ -2412,6 +2439,7 @@ $('#btnAtual').onclick = atualizar;
 /* ===================== ACESSO: aberto e livre ao público? ===================== */
 const hora = n => Math.floor(n)+'h'+(n%1 ? String(Math.round(n%1*60)).padStart(2,'0') : '');
 function acesso(x){
+  if(x.t==='restaurante') return {ab:null, txt:x.hr ? '🕒 '+x.hr : 'Confira o horário antes de ir', cls:''};
   if(x.t==='evento') return x.agora ? {ab:1,txt:'Acontecendo agora',cls:'ab'} : {ab:0,txt:(x.faltam===1?'Começa amanhã':'Começa em '+x.faltam+' dias'),cls:''};
   if(x.h){
     const d = new Date(), fds = d.getDay()===0||d.getDay()===6, [a,f] = fds ? x.h.fds : x.h.u, t = d.getHours()+d.getMinutes()/60;
@@ -2431,6 +2459,7 @@ function passa(x, semCidade){
     if(!semCidade && estado.cidade!=='todas' && x.c!==estado.cidade) return false;
   }
   if(estado.tipo==='promo') return false;
+  if(x.t==='restaurante' && estado.tipo!=='restaurante' && !estado.q) return false;
   if(estado.tipo!=='tudo' && x.t!=='evento' && x.t!==estado.tipo) return false;
   if(estado.preco==='gratis' && !(x.p==='gratis'||x.p==='misto')) return false;
   if(estado.preco==='pago' && !(x.p==='pago'||x.p==='misto')) return false;
@@ -2473,6 +2502,7 @@ function montarChips(){
   const sp = document.createElement('span'); sp.className = 'sep'; f.append(sp);
   for(const k of ['parque','praca','praia','cachoeira','lago','rota','atracao','shopping'])
     f.append(chip(TIPOS[k].e+' '+TIPOS[k].nome, estado.tipo===k, mudar(() => estado.tipo = estado.tipo===k?'tudo':k)));
+  f.append(chip('🍽️ Onde almoçar', estado.tipo==='restaurante', mudar(() => estado.tipo = estado.tipo==='restaurante'?'tudo':'restaurante'), 'sol'));
   f.append(chip('🏷️ Promoções', estado.tipo==='promo', mudar(() => estado.tipo = estado.tipo==='promo'?'tudo':'promo'), 'sol'));
   f.scrollLeft = rol;
 }
@@ -2505,7 +2535,7 @@ function cartao(x, k){
     const quando = x.i===x.f ? fmt(x._i) : fmt(x._i)+' a '+fmt(x._f);
     b.innerHTML = '<div class="data"><b>'+x._i.getDate()+'</b><span>'+MES[x._i.getMonth()]+'</span></div><div><h3>'+esc(x.n)+'</h3><p>'+esc(onde)+'<br>'+quando+'</p><p class="st '+ac.cls+'">'+ac.txt+'</p><div class="tags">'+tagPreco(x.p)+'</div></div>';
   } else {
-    b.innerHTML = '<div class="ico">'+TIPOS[x.t].e+'</div><div><h3>'+esc(x.n)+'</h3><p>'+esc(onde)+'</p><p class="st '+ac.cls+'">'+ac.txt+'</p><div class="tags">'+tagPreco(x.p)+'<span class="tag">'+TIPOS[x.t].um+'</span>'+(x.a?'<span class="tag">Ar livre</span>':'')+'</div></div>';
+    b.innerHTML = '<div class="ico">'+TIPOS[x.t].e+'</div><div><h3>'+esc(x.n)+'</h3><p>'+esc(onde)+'</p><p class="st '+ac.cls+'">'+ac.txt+'</p><div class="tags">'+(x.t==='restaurante'?'<span class="tag sug">⭐ Sugestão do Serra Aberta</span>':tagPreco(x.p))+'<span class="tag">'+TIPOS[x.t].um+'</span>'+(x.a?'<span class="tag">Ar livre</span>':'')+'</div></div>';
   }
   b.onclick = () => abrir(x.id); revelar(b, k); return b;
 }
@@ -2518,8 +2548,8 @@ function cartaoAnuncio(a){
   const el = document.createElement(a.link ? 'a' : 'div'); el.className = 'patro';
   if(a.link){ el.href = a.link; el.target = '_blank'; el.rel = 'noopener sponsored'; }
   const onde = a.c==='todas' ? 'Rio Grande do Sul' : a.c.startsWith('reg:') ? REG[a.c.slice(4)].nome : CIDADES[a.c].nome;
-  const emo = a.promo?'🏷️':'⭐';
-  el.innerHTML = '<div class="ico'+(a.logo?' logo':'')+'">'+(a.logo ? '<img alt="Logo de '+esc(a.n)+'" src="'+esc(a.logo)+'" referrerpolicy="no-referrer">' : emo)+'</div><div><h3>'+esc(a.n)+'</h3><p>'+esc(a.d)+'</p><div class="tags"><span class="tag ad">'+(a.promo?'Promoção':'Anúncio')+'</span><span class="tag">'+esc(onde)+'</span>'+(a.promo && a.f ? '<span class="tag">até '+fmt(a.f)+'</span>' : '')+'</div></div>';
+  const emo = a.promo?'🏷️':a.rest?'🍽️':'⭐';
+  el.innerHTML = '<div class="ico'+(a.logo?' logo':'')+'">'+(a.logo ? '<img alt="Logo de '+esc(a.n)+'" src="'+esc(a.logo)+'" referrerpolicy="no-referrer">' : emo)+'</div><div><h3>'+esc(a.n)+'</h3><p>'+esc(a.d)+'</p><div class="tags"><span class="tag ad">'+(a.promo?'Promoção':a.rest?'Patrocinado':'Anúncio')+'</span><span class="tag">'+esc(onde)+'</span>'+(a.promo && a.f ? '<span class="tag">até '+fmt(a.f)+'</span>' : '')+'</div></div>';
   const im = el.querySelector('img'); if(im) im.onerror = () => { const i = im.parentNode; i.classList.remove('logo'); i.textContent = emo; };
   el.addEventListener('click', () => medir('clique_anuncio', {anunciante:a.n, cidade:onde}));
   if(!vistos.has(a.n)){ vistos.add(a.n); medir('ver_anuncio', {anunciante:a.n, cidade:onde}); }
@@ -2551,10 +2581,16 @@ function desenhar(){
     else g.append(vazio('Nenhuma promoção publicada '+nomeC,'Este espaço é dos anunciantes. As ofertas aparecem aqui assim que forem cadastradas.'));
   } else {
     $('#titLugares').textContent = estado.tipo==='tudo' ? 'Lugares' : TIPOS[estado.tipo].nome;
-    $('#contLugares').textContent = lug.length+(lug.length===1?' lugar ':' lugares ')+nomeC;
-    const ads = anunciosAtivos(false);
+    $('#contLugares').textContent = lug.length+(estado.tipo==='restaurante' ? (lug.length===1?' sugestão ':' sugestões ') : (lug.length===1?' lugar ':' lugares '))+nomeC;
+    const ads = anunciosAtivos(false).filter(a => estado.tipo==='restaurante' ? a.rest : !a.rest);
     ads.forEach(a => g.append(cartaoAnuncio(a)));
-    if(!lug.length){
+    const vRest = () => { const a = document.createElement('div'); a.className = 'anuncio';
+      a.innerHTML = '<div><b>Seu restaurante aqui</b><span>Apareça em destaque, acima da sugestão, para quem está decidindo onde almoçar '+esc(nomeC)+'.</span></div>';
+      const bt = document.createElement('button'); bt.className = 'btn-sol'; bt.textContent = 'Quero aparecer'; bt.onclick = () => irVista('anuncie'); a.append(bt); return a; };
+    if(estado.tipo==='restaurante' && !lug.length){
+      g.append(vazio('Ainda sem sugestão de almoço '+esc(nomeC), 'Estamos escolhendo um restaurante por cidade, começando pela Serra Gaúcha.'));
+      if(!ads.length) g.append(vRest());
+    } else if(!lug.length){
       const cz = estado.cidade!=='todas' && !estado.q && !comLugar[estado.cidade];
       if(cz){
         const nm = CIDADES[estado.cidade].nome;
@@ -2572,6 +2608,7 @@ function desenhar(){
       }
       g.append(cartao(x, k % PASSO));
     });
+    if(estado.tipo==='restaurante' && lug.length && !ads.length) g.append(vRest());
     if(lug.length > estado.lim){
       const m = document.createElement('button'); m.className = 'mais'; m.textContent = 'Mostrar mais '+Math.min(PASSO, lug.length-estado.lim)+' de '+(lug.length-estado.lim);
       m.onclick = () => { const y = window.scrollY; estado.lim += PASSO; desenhar(); window.scrollTo(0,y); }; g.append(m);
@@ -2609,14 +2646,14 @@ function abrir(id){
   const quando = x.t==='evento' ? '<p class="onde">'+(x.i===x.f ? fmt(x._i) : fmt(x._i)+' a '+fmt(x._f))+'</p>' : '';
   $('#fichaC').innerHTML =
     '<button class="fechar" aria-label="Fechar">✕</button>'+
-    '<div class="tags">'+tagPreco(x.p)+'<span class="tag">'+TIPOS[x.t].um+'</span>'+(x.a?'<span class="tag">Ar livre</span>':'')+'</div>'+
+    '<div class="tags">'+(x.t==='restaurante'?'<span class="tag sug">⭐ Sugestão do Serra Aberta</span>':tagPreco(x.p))+'<span class="tag">'+TIPOS[x.t].um+'</span>'+(x.a?'<span class="tag">Ar livre</span>':'')+'</div>'+
     '<h2 id="fNome">'+esc(x.n)+'</h2><p class="onde">'+esc((x.b?x.b+', ':'')+cid)+'</p>'+quando+
     (x.fotos && x.fotos.length ? '<div class="galeria">'+x.fotos.map(f => '<img loading="lazy" alt="Foto de '+esc(x.n)+'" src="'+esc(f)+'">').join('')+'</div>' : '')+
     '<p class="st '+ac.cls+'">'+ac.txt+'</p><p>'+esc(x.d)+'</p>'+(x.k?'<p class="dica">'+esc(x.k)+'</p>':'')+
-    '<p class="conf">'+(x.v||x.t==='evento' ? 'Acesso e datas conferidos em outubro de 2026.' : (x.g ? 'Está entre os lugares mais avaliados da cidade no Google Maps. Acesso e preço não conferidos: confirme com o local antes de sair.' : 'Acesso ainda não conferido um a um. Confirme com o local antes de sair.'))+'</p>'+
+    '<p class="conf">'+(x.t==='restaurante' ? 'Sugestão do Serra Aberta, escolhida por ser tradicional e bem indicada em guias da região. Veja as avaliações e confirme o horário no Google antes de ir.' : x.v||x.t==='evento' ? 'Acesso e datas conferidos em outubro de 2026.' : (x.g ? 'Está entre os lugares mais avaliados da cidade no Google Maps. Acesso e preço não conferidos: confirme com o local antes de sair.' : 'Acesso ainda não conferido um a um. Confirme com o local antes de sair.'))+'</p>'+
     '<div class="acoes"><button class="btn pri" id="irPara" aria-expanded="false">🧭 Ir para</button>'+
     '<div id="rotas" hidden><p class="rotas-tit">Abrir a rota em:</p><div class="rotas"><a class="btn maps" id="rMaps" target="_blank" rel="noopener" href="'+rotaMaps+'">📍 Google Maps</a><a class="btn waze" id="rWaze" target="_blank" rel="noopener" href="'+rotaWaze+'">🚗 Waze</a></div></div>'+
-    '<a class="btn" target="_blank" rel="noopener" href="'+url+'">Ver o local no Google Maps</a><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q='+encodeURIComponent(x.n+' '+cid+' RS')+'">📷 Ver fotos</a><button class="btn" id="verMapa">Ver no mapa</button></div>';
+    '<a class="btn" target="_blank" rel="noopener" href="'+url+'">'+(x.t==='restaurante'?'⭐ Ver avaliações no Google':'Ver o local no Google Maps')+'</a><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q='+encodeURIComponent(x.n+' '+cid+' RS')+'">📷 Ver fotos</a><button class="btn" id="verMapa">Ver no mapa</button></div>';
   $('#fichaC .fechar').onclick = () => ficha.close();
   const links = $('#fichaC').querySelectorAll('.acoes a');
   $('#irPara').onclick = e => { const r = $('#rotas'); r.hidden = !r.hidden; e.currentTarget.setAttribute('aria-expanded', !r.hidden); if(!r.hidden){ medir('clique_ir_para', info); r.scrollIntoView({block:'nearest'}); } };
