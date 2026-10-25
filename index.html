@@ -2495,6 +2495,7 @@ function montarChips(){
   s.value = estado.cidade;
   const f = $('#filtros'), rol = f.scrollLeft; f.textContent = '';
   const mudar = fn => () => { fn(); estado.lim = PASSO; desenhar(); };
+  f.append(chip('🍽️ Onde almoçar', estado.tipo==='restaurante', mudar(() => estado.tipo = estado.tipo==='restaurante'?'tudo':'restaurante'), 'sol'));
   f.append(chip('Aberto agora', estado.aberto, mudar(() => estado.aberto = !estado.aberto)));
   f.append(chip('Gratuito', estado.preco==='gratis', mudar(() => estado.preco = estado.preco==='gratis'?'todos':'gratis')));
   f.append(chip('Pago', estado.preco==='pago', mudar(() => estado.preco = estado.preco==='pago'?'todos':'pago')));
@@ -2502,7 +2503,6 @@ function montarChips(){
   const sp = document.createElement('span'); sp.className = 'sep'; f.append(sp);
   for(const k of ['parque','praca','praia','cachoeira','lago','rota','atracao','shopping'])
     f.append(chip(TIPOS[k].e+' '+TIPOS[k].nome, estado.tipo===k, mudar(() => estado.tipo = estado.tipo===k?'tudo':k)));
-  f.append(chip('🍽️ Onde almoçar', estado.tipo==='restaurante', mudar(() => estado.tipo = estado.tipo==='restaurante'?'tudo':'restaurante'), 'sol'));
   f.append(chip('🏷️ Promoções', estado.tipo==='promo', mudar(() => estado.tipo = estado.tipo==='promo'?'tudo':'promo'), 'sol'));
   f.scrollLeft = rol;
 }
