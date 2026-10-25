@@ -2395,7 +2395,7 @@ async function atualizar(){
   selReg = null; ultima = new Date();
   $('#faixa').innerHTML = [0,1].map(() => evs.map(e => '<span>📅 '+esc(e.n)+', '+CIDADES[e.c].nome+(e.agora ? ', até '+fmt(e._f) : ', começa '+fmt(e._i))+'</span>').join('')).join('');
   { const fx = $('#faixa'); requestAnimationFrame(() => { const w = fx.scrollWidth/2; fx.style.animationDuration = Math.max(30, w/38)+'s'; }); }
-  if(mapaPronto) montarPins(); desenhar(); relogio();
+  if(mapaPronto) montarPins(); else garantirMapa(); desenhar(); relogio();
 }
 function relogio(){
   if(!ultima) return;
@@ -2587,7 +2587,7 @@ function irVista(v){
   document.body.dataset.v = v;
   document.querySelectorAll('.abas button').forEach(b => b.setAttribute('aria-current', b.dataset.v===v));
   window.scrollTo(0,0);
-  if(v==='mapa'){ if(!mapaPronto){ mapaPronto = true; fundo(); montarPins(); } requestAnimationFrame(() => focarMapa(false)); }
+  if(v==='mapa'){ garantirMapa(true); requestAnimationFrame(() => focarMapa(false)); }
 }
 document.querySelectorAll('.abas button').forEach(b => b.onclick = () => irVista(b.dataset.v));
 irVista('lugares');
@@ -2633,6 +2633,11 @@ const px = lon => (lon-LON0)*COS*K, py = lat => (LAT0-lat)*K;
 const svg = $('#svg'), pins = $('#pins'), mapa = $('#mapa');
 let vista = {cx:MAPA_W/2, cy:MAPA_H/2, w:MAPA_W*1.05}, anim = null, nos = {}, marc = [], nv = -1;
 var mapaPronto = false;
+// monta o mapa só quando ele fica visível (aba Mapa no celular; sempre visível no computador)
+function garantirMapa(forcar){
+  if(mapaPronto || !itens.length || !(forcar || mapa.clientWidth)) return;
+  mapaPronto = true; fundo(); montarPins(); atualizarPins();
+}
 function fundo(){
   let s = '';
   for(const k in CIDADES) if(CIDADES[k].geo) s += '<path class="mun" data-c="'+k+'" d="'+CIDADES[k].geo+'" vector-effect="non-scaling-stroke"/>';
@@ -2712,7 +2717,7 @@ function focarMapa(animar){
   })(t0);
 }
 let larg0 = 0;
-new ResizeObserver(() => { if(!larg0 && mapa.clientWidth) vista = alvo(); larg0 = mapa.clientWidth; posicionar(); }).observe(mapa);
+new ResizeObserver(() => { garantirMapa(); if(!larg0 && mapa.clientWidth) vista = alvo(); larg0 = mapa.clientWidth; posicionar(); }).observe(mapa);
 
 /* zoom e arraste com os dedos, roda do mouse e botões */
 const dedos = new Map(); let gesto = null, arrastou = false;
