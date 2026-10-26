@@ -538,7 +538,7 @@ dialog{border-radius:28px 28px 0 0}
       </div>
       <p class="ctt">WhatsApp (54) 99692-8531<br>Dani__mf@hotmail.com</p>
     </div>
-    <p class="nota">Limites municipais conforme a malha do IBGE. As posições dos marcadores são aproximadas; o botão Abrir no Google Maps leva ao endereço. Valores e horários mudam: confirme com o local antes de sair. Agenda conferida em 19/10/2026. Os lugares fora da Serra ainda não foram conferidos um a um.</p>
+    <p class="nota">Limites municipais conforme a malha do IBGE. As posições dos marcadores são aproximadas; o botão Abrir no Google Maps leva ao endereço. Valores e horários mudam: confirme com o local antes de sair. Agenda conferida em 26/10/2026. Os lugares fora da Serra ainda não foram conferidos um a um.</p>
   </section>
   </div>
  </div>
@@ -2302,44 +2302,36 @@ const LUGARES = L.concat(RESTAURANTES).map(a => {
 
 const EVENTOS = [
  // ---------- SERRA GAÚCHA ----------
- {c:'caxias-do-sul',p:'gratis',a:0,n:'Moinho Cultural: As Aventuras do Fusca à Vela',i:'2026-10-25',f:'2026-10-25',b:'Centro Cultural Moinho da Cascata',d:'Mais um espetáculo infantil gratuito no domingo do Moinho Cultural.'},
  {c:'caxias-do-sul',p:'consulte',a:0,n:'Exposição Grande Sertão, de Graça Craidy',i:'2026-10-18',f:'2026-10-29',b:'Galeria Municipal de Arte Gerd Bornheim',d:'Mostra de pinturas da artista Graça Craidy na galeria municipal.'},
- {c:'caxias-do-sul',p:'consulte',a:0,n:'Mercopar 2026',i:'2026-10-20',f:'2026-10-23',b:'Pavilhões da Festa da Uva',lat:-29.150,lon:-51.200,d:'35ª Feira de Inovação Industrial. As palestras do Palco Conhecimento e do Palco Conexões têm acesso gratuito.',k:'Inscrições e horários em mercopar.com.br.'},
- {c:'caxias-do-sul',p:'consulte',a:0,n:'Sorveteria da Mel',i:'2026-10-24',f:'2026-10-25',b:'Villagio Caxias',lat:-29.176,lon:-51.218,d:'Atração itinerante com atividades para o público infantil.'},
  {c:'caxias-do-sul',p:'gratis',a:0,n:'Feira Bêrga',i:'2026-11-09',f:'2026-11-14',b:'Prataviera Shopping',lat:-29.1685,lon:-51.181,d:'Feira de economia criativa com marcas autorais, arte e gastronomia. Entrada gratuita.'},
- {c:'caxias-do-sul',p:'consulte',a:0,n:'Exposição 25 anos: a importância da preservação',i:'2026-10-01',f:'2026-10-25',b:'Centro de Cultura Dr. Henrique Ordovás Filho',d:'Fotografias de Mario André Coelho de Souza sobre a transformação da antiga Cantina Antunes no atual Centro de Cultura.'},
- {c:'caxias-do-sul',p:'consulte',a:0,n:'Pôr do Sol na Biblioteca Parque',i:'2026-10-24',f:'2026-10-24',b:'Biblioteca Parque',d:'Tarde de programação na Biblioteca Parque, das 14h às 18h.'},
  {c:'caxias-do-sul',p:'consulte',a:0,n:'Rock à Fantasia',i:'2026-11-01',f:'2026-11-01',b:'Teatro do Ordovás',d:'4ª edição do evento, com tema de Halloween.'},
- {c:'bento-goncalves',p:'consulte',a:1,n:'41ª Feira do Livro de Bento Gonçalves',i:'2026-10-14',f:'2026-10-24',b:'Via del Vino',lat:-29.1695,lon:-51.519,d:'Mais de 200 atividades entre bancas, autores, contação de histórias e programação nas escolas.'},
  {c:'bento-goncalves',p:'consulte',a:1,n:'Degusta Cidade Alta',i:'2026-11-14',f:'2026-11-14',b:'Praça das Rosas',lat:-29.165,lon:-51.510,d:'Encontro de gastronomia, vinhos e cultura na praça, a partir das 16h.'},
  {c:'bento-goncalves',p:'pago',a:1,n:'Intensità Sunset da Salton',i:'2026-10-31',f:'2026-10-31',b:'Casa di Pasto Salton, Caminhos de Pedra',d:'Pôr do sol com tema de Halloween, open bar e comida, DJ e show. Das 17h às 22h (entrada até 19h). Para maiores de 18 anos.'},
- {c:'garibaldi',p:'consulte',a:1,n:'Feira do Livro de Garibaldi',i:'2026-10-21',f:'2026-10-24',b:'Praça Loureiro da Silva',d:'Feira do livro na praça, dentro da programação dos 126 anos de Garibaldi.'},
  {c:'garibaldi',p:'consulte',a:0,n:'Gincana Municipal dos 126 anos',i:'2026-10-30',f:'2026-11-01',b:'Ginásio Municipal de Esportes',d:'Gincana de aniversário da cidade. Abertura dia 30 às 19h30; no dia 31 tem missa festiva às 17h na Igreja Matriz.'},
  {c:'gramado',p:'misto',a:1,n:'41º Natal Luz de Gramado',i:'2026-10-22',f:'2027-01-17',b:'Centro de Gramado',lat:-29.3788,lon:-50.8748,d:'Vila de Natal, Show de Acendimento e Parada de Natal são gratuitos. Grande Desfile e Nativitaten têm ingresso.',k:'Abertura oficial às 19h do dia 22 de outubro.'},
- {c:'canela',p:'gratis',a:1,n:'Sonho de Natal de Canela',i:'2026-10-30',f:'2027-01-10',b:'Praça João Corrêa e Catedral de Pedra',lat:-29.3643,lon:-50.814,d:'Programação natalina gratuita no centro de Canela.'},
+ {c:'canela',p:'gratis',a:1,n:'39º Sonho de Natal de Canela',i:'2026-10-30',f:'2027-01-10',b:'Praça João Corrêa e Catedral de Pedra',lat:-29.3643,lon:-50.814,d:'Programação natalina gratuita no centro de Canela.'},
  {c:'nova-petropolis',p:'gratis',a:1,n:'Magia do Natal de Nova Petrópolis',i:'2026-11-14',f:'2027-01-03',b:'Rua Coberta e Praça das Flores',lat:-29.3763,lon:-51.1122,d:'Feira natalina com produtos, comidas e artesanato na praça central.'},
  {c:'flores-da-cunha',p:'consulte',a:0,n:'Festival Melhores Vinhos 2026',i:'2026-11-06',f:'2026-11-08',b:'Parque da Vindima Eloy Kunz',d:'Degustação dos vinhos premiados da região no Parque da Vindima.'},
+ {c:'caxias-do-sul',p:'gratis',a:0,n:'2º Festival Negra Flor: Negras no Samba',i:'2026-11-03',f:'2026-11-07',b:'Teatro Pedro Parenti, Clube Gaúcho, Quilombo Herdeiros de Palmares, Estação Férrea e Pérola Negra',d:'Teatro, palestras, cinema, feira de empreendedoras negras, Baile Charme e shows, com encerramento de Bia Ferreira no sábado (7) às 22h. Tudo gratuito, com ingressos limitados.',k:'Retirada de ingressos divulgada no Instagram @negraflor.cultura.'},
+ {c:'farroupilha',p:'pago',a:1,n:'10ª Violada dos Guris',i:'2026-11-07',f:'2026-11-07',b:'Blauth Bier Cervejaria, Nova Sardenha',d:'Festa com show sertanejo de Vitor Henrique & Gabriel, pagode e DJ, das 15h às 21h. Para maiores de 18 anos.',k:'Ingressos pela Eventiza. Em caso de chuva, muda de local.'},
+ {c:'farroupilha',p:'consulte',a:1,n:'Festival do Moscatel: Edição Garden',i:'2026-11-07',f:'2026-11-14',b:'Vinícolas de Farroupilha (itinerante)',d:'Edição itinerante do festival do moscatel nas vinícolas do município, nos sábados 7 e 14 de novembro.'},
+ {c:'farroupilha',p:'consulte',a:1,n:'Feira do Livro de Farroupilha',i:'2026-11-10',f:'2026-11-15',b:'Praça da Emancipação',d:'Feira do livro na praça central da cidade.'},
  // ---------- OUTRAS REGIÕES ----------
- {c:'santa-cruz-do-sul',p:'misto',a:1,n:'41ª Oktoberfest de Santa Cruz do Sul',i:'2026-10-08',f:'2026-10-25',b:'Parque da Oktoberfest',d:'Shows, desfiles e cultura alemã. Pessoas com 55 anos ou mais entram grátis em 22/out. Demais dias de R$ 15 a R$ 35.'},
- {c:'porto-alegre',p:'pago',a:0,n:'Dionne Warwick: turnê de despedida',i:'2026-10-21',f:'2026-10-21',b:'Auditório Araújo Vianna',lat:-30.0365,lon:-51.2135,d:'Show da turnê Over and Out, às 21h, no Parque da Redenção. Ingressos no Sympla.'},
  {c:'porto-alegre',p:'pago',a:0,n:'Os Paralamas do Sucesso: Clássicos',i:'2026-10-30',f:'2026-10-30',b:'Salão de Atos da PUCRS',d:'Show com os maiores sucessos da banda, às 21h.'},
  {c:'porto-alegre',p:'gratis',a:0,n:'Exposição André Severo no MARGS',i:'2026-10-18',f:'2026-11-15',b:'MARGS, Praça da Alfândega',lat:-30.0279,lon:-51.2306,d:'Mostra A onda de Gustave Courbet. Entrada gratuita, de terça a domingo, das 10h às 19h.'},
  {c:'porto-alegre',p:'gratis',a:1,n:'72ª Feira do Livro de Porto Alegre',i:'2026-10-30',f:'2026-11-15',b:'Praça da Alfândega',lat:-30.0283,lon:-51.2310,d:'A tradicional feira do livro na praça, com bancas, autógrafos e programação cultural.'},
  {c:'santa-maria',p:'consulte',a:1,n:'Festival do Xis de Santa Maria',i:'2026-11-13',f:'2026-11-15',b:'Santa Maria',d:'Festival dedicado ao xis, o sanduíche mais gaúcho de todos.'},
- {c:'ivoti',p:'gratis',a:1,n:'Aniversário de 62 anos de Ivoti',i:'2026-10-19',f:'2026-10-19',b:'Praça Concórdia',d:'Cinema ao ar livre e brinquedos infláveis das 17h às 21h, além de atividades no Memorial da Colônia Japonesa.'},
- {c:'ivoti',p:'consulte',a:1,n:'19ª Feira das Flores de Ivoti',i:'2026-10-23',f:'2026-10-25',b:'Núcleo de Casas Enxaimel',d:'Feira de flores e plantas no núcleo histórico de casas enxaimel, no último fim de semana do evento.'},
- {c:'canoas',p:'consulte',a:1,n:'Feira do Livro de Canoas e 1ª Feira Internacional Lusófona',i:'2026-10-17',f:'2026-10-24',b:'Canoas',d:'Feira do livro da cidade, neste ano com uma feira dedicada aos países de língua portuguesa.'},
  {c:'santa-rosa',p:'consulte',a:0,n:'Festival Gastronômico Santa Rosa e Região',i:'2026-10-01',f:'2026-10-31',b:'Restaurantes participantes',d:'Pratos especiais em restaurantes de Santa Rosa e região durante todo o mês.'},
- {c:'cachoeira-do-sul',p:'consulte',a:0,n:'Vigília do Canto Gaúcho e Mostra Cultural Tradicionalista',i:'2026-10-23',f:'2026-10-25',b:'Cachoeira do Sul',d:'Festival de música nativista e mostra da cultura tradicionalista.'},
  {c:'cachoeira-do-sul',p:'gratis',a:1,n:'Cortejo Quicumbi',i:'2026-11-01',f:'2026-11-01',b:'Cachoeira do Sul',d:'Cortejo da tradição afro-gaúcha do Quicumbi pelas ruas da cidade.'},
- {c:'novo-hamburgo',p:'pago',a:1,n:'14ª Halloween de Rua de Lomba Grande',i:'2026-10-24',f:'2026-10-24',b:'Bairro Lomba Grande',d:'Praça gastronômica às 15h, caminhada às 18h30, show de mágica às 20h e concurso de fantasia às 21h. Ingressos de R$ 25 a R$ 60, com coleta de doces.'},
  {c:'novo-hamburgo',p:'consulte',a:0,n:'Mostratec 2026',i:'2026-10-26',f:'2026-10-30',b:'Fenac',d:'Mostra Internacional de Ciência e Tecnologia da Fundação Liberato, com projetos de estudantes de vários países.'},
  {c:'viamao',p:'consulte',a:1,n:'Mundial de Beach Tennis BT 400 Sul Special Cup',i:'2026-10-27',f:'2026-11-01',b:'Viamão',d:'Etapa do circuito mundial de beach tennis.'},
  {c:'esteio',p:'pago',a:1,n:'Oktoberfest de Esteio',i:'2026-10-29',f:'2026-10-31',b:'Parque Estadual de Exposições Assis Brasil',d:'Ingressos a R$ 10 antecipados e R$ 15 na hora; estudantes e idosos R$ 5. Renda para o Centro de Bem-estar Animal.',k:'Entrada pelo portão 7, na Av. Celina Kroeff. Estacionamento gratuito.'},
  {c:'tavares',p:'consulte',a:1,n:'17º Festival Brasileiro das Aves Migratórias',i:'2026-10-29',f:'2026-11-01',b:'Parque Nacional da Lagoa do Peixe',d:'Festival de observação de aves que celebra os 40 anos do Parque Nacional da Lagoa do Peixe.'},
  {c:'planalto',p:'consulte',a:1,n:'Encontro e Exposição de Veículos Antigos e Clássicos',i:'2026-10-31',f:'2026-11-01',b:'Planalto',d:'Exposição de carros antigos e clássicos.'},
  {c:'dom-pedrito',p:'consulte',a:0,n:'Ponche Verde da Canção Gaúcha',i:'2026-11-06',f:'2026-11-08',b:'Dom Pedrito',d:'Tradicional festival de música nativista da Campanha.'},
- {c:'picada-cafe',p:'consulte',a:1,n:'7º Encontro de Cervejeiros e 2º Festival do Hambúrguer',i:'2026-11-07',f:'2026-11-07',b:'Parque Histórico Jorge Kuhn',d:'Cervejas artesanais e hambúrgueres no parque histórico.'}
+ {c:'picada-cafe',p:'consulte',a:1,n:'7º Encontro de Cervejeiros e 2º Festival do Hambúrguer',i:'2026-11-07',f:'2026-11-07',b:'Parque Histórico Jorge Kuhn',d:'Cervejas artesanais e hambúrgueres no parque histórico.'},
+ {c:'porto-alegre',p:'consulte',a:0,n:'Exposição Uma Viagem ao Mundo dos Brinquedos',i:'2026-07-14',f:'2026-12-13',b:'Farol Santander',d:'Exposição sobre o universo dos brinquedos no Farol Santander, no Centro Histórico.'},
+ {c:'porto-alegre',p:'consulte',a:0,n:'Iberê Camargo: quem sabe, o tempo…',i:'2026-07-27',f:'2027-03-28',b:'Fundação Iberê Camargo',d:'Mostra de Iberê Camargo com curadoria de Carmela Gross.'}
 ];
 // evento sem coordenada própria fica no centro da cidade
 for(const e of EVENTOS) if(e.lat==null){ e.lat = CIDADES[e.c].lat+0.002; e.lon = CIDADES[e.c].lon+0.002; }
