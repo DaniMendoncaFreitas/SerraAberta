@@ -94,7 +94,7 @@ h1,h2,h3{font-family:var(--display);margin:0;line-height:1.05;letter-spacing:-.0
 .faixa span{margin-right:38px}
 @keyframes corre{to{transform:translateX(-50%)}}
 
-#regioes:empty{min-height:52px}.barra-f{min-height:54px}.faixa{min-height:34px}
+
 main{max-width:1240px;margin:0 auto;padding:0 14px 30px;min-width:0}
 
 /* cena animada */
@@ -445,6 +445,104 @@ dialog{border-radius:28px 28px 0 0}
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
   .px1,.px2,.px3,.px4{transform:none}
 }
+/* ===== Visual 2026: mais leve, mais Serra ===== */
+:root{
+  --r-g:22px; --r-m:14px;
+  --curvas:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='520' height='260' viewBox='0 0 520 260'%3E%3Cg fill='none' stroke='%231E5B47' stroke-opacity='.09' stroke-width='1.2'%3E%3Cpath d='M-20 210c60-40 110-70 170-62s90 52 160 40 120-70 230-60'/%3E%3Cpath d='M-20 180c60-40 110-70 170-62s90 52 160 40 120-70 230-60'/%3E%3Cpath d='M-20 150c60-40 110-70 170-62s90 52 160 40 120-70 230-60'/%3E%3Cpath d='M-20 120c60-40 110-70 170-62s90 52 160 40 120-70 230-60'/%3E%3Cpath d='M-20 90c60-40 110-70 170-62s90 52 160 40 120-70 230-60'/%3E%3Cpath d='M-20 60c60-40 110-70 170-62s90 52 160 40 120-70 230-60'/%3E%3C/g%3E%3C/svg%3E");
+}
+body{background:var(--curvas) top center/520px 260px repeat-x,var(--bg)}
+main{min-height:150vh}
+
+/* cabeçalho mais baixo: marca, regiões e filtros ocupam menos tela */
+.topo-l{padding:8px 14px 6px}
+.marca{font-size:1.18rem}
+.marca svg{width:28px;height:28px}
+.atual{padding:4px 9px;font-size:.72rem}
+.regioes{display:flex;gap:0;margin:0 14px 8px;padding:3px;border-radius:999px;background:color-mix(in srgb,var(--ink) 7%,transparent)}
+#regioes:empty{min-height:42px}
+.reg{flex:1;height:36px;border-radius:999px;box-shadow:none;background:none;font-family:var(--body);font-size:.82rem;font-weight:700;color:var(--muted)}
+.reg::before{border-radius:999px;transform:scale(.6);opacity:0;transition:transform .3s cubic-bezier(.2,.9,.3,1),opacity .2s}
+.reg[aria-pressed="true"]{box-shadow:0 6px 14px -8px var(--rc);color:#fff}
+.reg[aria-pressed="true"]::before{transform:none;opacity:1}
+.reg[data-r="serra"] span,.reg[data-r="rs"] span{font-size:0}
+.reg[data-r="serra"] span::after{content:"Serra";font-size:.82rem}
+.reg[data-r="rs"] span::after{content:"Todo o RS";font-size:.82rem}
+.barra-f{min-height:50px;padding-bottom:8px}
+.barra-f select{height:38px;font-size:.86rem}
+.chip{height:38px;padding:0 13px;font-size:.84rem}
+.rolagem{-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent);mask-image:linear-gradient(90deg,#000 88%,transparent)}
+.faixa{min-height:31px;border-radius:0;font-size:.8rem}
+.faixa div{padding:6px 0}
+
+/* cena e título */
+.cena{height:200px;border-radius:0 0 var(--r-g) var(--r-g)}
+.hero{padding:22px 0 6px}
+.hero h1{line-height:.98}
+.hero p{font-size:1.02rem;max-width:56ch}
+
+/* títulos de seção */
+.cab{margin:28px 0 12px}
+.cab h2{font-size:clamp(1.45rem,5.4vw,1.9rem);font-weight:800;letter-spacing:-.025em}
+.cab small{font-size:.82rem}
+
+/* cartões: sem a faixa lateral, ícone com a cor do tipo, menos sombra */
+.card{--tc:var(--pine);border-radius:var(--r-g);box-shadow:0 1px 0 color-mix(in srgb,var(--line) 80%,transparent),0 0 0 1px color-mix(in srgb,var(--line) 70%,transparent);padding:14px 14px 14px 12px;gap:14px;grid-template-columns:52px minmax(0,1fr)}
+.card::before{display:none}
+.card[data-t="vinicola"]{--tc:var(--uva)}.card[data-t="restaurante"]{--tc:#C2621A}.card[data-t="parque"]{--tc:var(--pine)}
+.ico{width:52px;height:52px;border-radius:16px;font-size:24px;background:color-mix(in srgb,var(--tc) 14%,var(--surface));box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--tc) 22%,transparent)}
+.card h3{font-size:1.06rem;letter-spacing:-.01em}
+.card p{font-size:.84rem;margin:2px 0 6px}
+.tag{background:none;box-shadow:inset 0 0 0 1px var(--line);color:var(--muted);font-weight:600}
+.tag.gratis{background:color-mix(in srgb,var(--pine) 12%,transparent);box-shadow:none;color:var(--pine)}
+.tag.sug{box-shadow:none}
+@media (hover:hover){
+  .card.vis:hover{transform:translateY(-2px);box-shadow:0 0 0 1px color-mix(in srgb,var(--tc) 35%,var(--line)),0 16px 30px -18px color-mix(in srgb,var(--tc) 70%,transparent)}
+}
+
+/* agenda da semana */
+.bilhete{border-radius:var(--r-g);box-shadow:0 0 0 1px color-mix(in srgb,var(--line) 70%,transparent),0 10px 24px -18px rgba(18,52,42,.5)}
+
+/* navegação inferior */
+.abas{border-radius:999px;padding:6px;left:12px;right:12px}
+.abas button{border-radius:999px;min-height:50px}
+
+/* computador: regiões na mesma linha da marca */
+@media (min-width:960px){
+  .topo{display:grid;grid-template-columns:200px minmax(0,1fr) 200px;align-items:center;column-gap:24px;padding:6px max(28px,calc((100vw - 1240px)/2 + 28px)) 0}
+  .topo-l{display:contents}
+  .marca{grid-column:1;grid-row:1}
+  .atual{grid-column:3;grid-row:1;justify-self:end}
+  .regioes{grid-column:2;grid-row:1;margin:0;max-width:540px;width:100%;justify-self:center;padding:3px}
+  #regioes:empty{min-height:42px}
+  .barra-f{grid-column:1/-1;grid-row:2;padding:10px 0;margin:0;max-width:none;min-width:0}
+  .rolagem{-webkit-mask-image:none;mask-image:none}
+  .cena{border-radius:var(--r-g)}
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--curvas:none}
+  :root:not([data-theme="light"]) .reg[data-r="serra"][aria-pressed="true"]{color:var(--pine-ink)}
+}
+:root[data-theme="dark"]{--curvas:none}
+@media (prefers-reduced-motion:reduce){
+  .reg::before{transition:none}
+}
+
+/* mapa com ruas de fundo */
+#mapa{background:#E8EEEA;touch-action:auto}
+#lmap{position:absolute;inset:0;z-index:0;background:#E8EEEA;font-family:var(--body)}
+.mapa-escuro{filter:invert(1) hue-rotate(180deg) brightness(.9) contrast(.9)}
+.zoom{z-index:1000}
+.leaflet-container a{color:var(--pine)}
+.leaflet-control-attribution{font-size:10px;border-radius:8px 8px 0 0;margin:0 0 0 8px!important;background:color-mix(in srgb,var(--surface) 85%,transparent)!important}
+.mk{background:none;border:0}
+.mk .pin{animation:none;cursor:pointer}
+.mk .no{cursor:pointer}
+.mk .no:not(.rot) b{min-width:24px;height:24px;padding:0 6px;font-size:.72rem}
+.mk .no:not(.rot) b::after{display:none}
+.mk .no b{background:var(--pine);color:#fff;box-shadow:0 3px 10px rgba(0,0,0,.25)}
+.mk .no b::after{border-color:var(--pine)}
+.mk .no.rot span{display:block;color:var(--ink);text-shadow:0 0 3px #fff,0 0 3px #fff,0 0 6px #fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .mk .no.rot span{color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.8)}:root:not([data-theme="light"]) #lmap{background:#1b1f22}}
 </style>
 </head>
 <body data-v="lugares">
@@ -901,6 +999,7 @@ const TIPOS = {
   praia:{nome:'Praias',um:'Praia',e:'🏖️'},
   cachoeira:{nome:'Cachoeiras',um:'Cachoeira',e:'💧'},
   shopping:{nome:'Compras',um:'Compras',e:'🛍️'},
+  vinicola:{nome:'Vinícolas',um:'Vinícola',e:'🍷'},
   restaurante:{nome:'Onde almoçar',um:'Restaurante',e:'🍽️'},
   evento:{nome:'Eventos',um:'Evento',e:'📅'}
 };
@@ -1052,7 +1151,7 @@ const L = [
  ["Flores da Cunha","rota","pago",1,"Mirante Gaio","Interior",null,null,"Vista do encontro de rios e de três municípios ao mesmo tempo."],
  ["Flores da Cunha","cachoeira","gratis",1,"Cascata Quedas da Usina","Interior",null,null,"Sequência de cachoeiras, com trilha difícil."],
  ["Flores da Cunha","atracao","gratis",1,"Eremitério Frei Salvador Pinzetta","Interior",null,null,"Colina em meio à natureza, local da romaria a Frei Salvador."],
- ["Flores da Cunha","atracao","pago",1,"Vinícola Luiz Argenta","Interior",null,null,"Visita e degustação com vista para os vinhedos."],
+ ["Flores da Cunha","vinicola","pago",1,"Vinícola Luiz Argenta","Interior",null,null,"Visita e degustação com vista para os vinhedos."],
  ["Flores da Cunha","parque","pago",1,"Recanto dos Pinheiros","Interior",null,null,"Parque com piscinas, toboáguas, trilhas e tirolesa."],
  ["Antônio Prado","praca","gratis",1,"Centro Histórico de Antônio Prado","Centro",null,null,"Conjunto de casas de madeira da imigração italiana tombado pelo IPHAN."],
  ["Antônio Prado","praca","gratis",1,"Praça Garibaldi","Centro",null,null,"A praça central, cercada pelos casarões tombados."],
@@ -1171,7 +1270,7 @@ const L = [
  ["Sant'Ana do Livramento","praca","gratis",1,"Parque Internacional","Centro",null,null,"Praça binacional: metade no Brasil, metade em Rivera, no Uruguai."],
  ["Sant'Ana do Livramento","shopping","gratis",1,"Free shops de Rivera","Fronteira",null,null,"Lojas francas do lado uruguaio, a pé a partir do centro."],
  ["Sant'Ana do Livramento","rota","gratis",1,"Cerro Palomas","BR-158",null,null,"Cerro de topo plano, símbolo da paisagem do pampa."],
- ["Sant'Ana do Livramento","atracao","pago",1,"Vinícola Almadén","Palomas",null,null,"Visita e degustação na região da Campanha."],
+ ["Sant'Ana do Livramento","vinicola","pago",1,"Vinícola Almadén","Palomas",null,null,"Visita e degustação na região da Campanha."],
  ["Sant'Ana do Livramento","rota","misto",1,"Ferradura dos Vinhedos","Interior",null,null,"Roteiro rural entre vinhedos e cerros."],
  ["Sant'Ana do Livramento","praca","gratis",1,"Praça General Osório","Centro",null,null,"Praça central do lado brasileiro."],
  ["Sant'Ana do Livramento","lago","consulte",1,"Lago Batuva","Interior",null,null,"Lago usado para lazer e pesca."],
@@ -1206,9 +1305,9 @@ const L = [
  ["Bagé","rota","pago",1,"Vinícolas da Campanha","Interior",null,null,"Visitas e degustações em vinícolas do pampa."],
  ["Aceguá","shopping","gratis",1,"Free shops de Aceguá","Fronteira",null,null,"Lojas francas do lado uruguaio, separadas por uma avenida."],
  ["Aceguá","atracao","gratis",1,"Linha divisória","Centro",null,null,"Marcos de fronteira na avenida que separa os dois países."],
- ["Dom Pedrito","atracao","pago",1,"Vinícola Guatambu","Interior",null,null,"Visita e degustação em estância da Campanha."],
+ ["Dom Pedrito","vinicola","pago",1,"Vinícola Guatambu","Interior",null,null,"Visita e degustação em estância da Campanha."],
  ["Dom Pedrito","praca","gratis",1,"Praça General Osório","Centro",null,null,"Praça central de Dom Pedrito."],
- ["Candiota","atracao","pago",1,"Vinícola Miolo Seival","Interior",null,null,"Vinhedos e degustação na Campanha."],
+ ["Candiota","vinicola","pago",1,"Vinícola Miolo Seival","Interior",null,null,"Vinhedos e degustação na Campanha."],
  ["Jaguarão","atracao","gratis",1,"Ponte Internacional Barão de Mauá","Rio Jaguarão",null,null,"Ponte histórica que liga Jaguarão a Rio Branco, no Uruguai."],
  ["Jaguarão","praca","gratis",1,"Centro Histórico de Jaguarão","Centro",null,null,"Casario tombado pelo IPHAN, conhecido pelas portas trabalhadas."],
  ["Jaguarão","atracao","consulte",0,"Theatro Esperança","Centro",null,null,"Teatro do século XIX."],
@@ -1388,7 +1487,7 @@ const L = [
  ["Alegrete","atracao","gratis",1,"Estação Alegrete","",null,null,"Estação ferroviária histórica em Alegrete.",{"g":1}],
  ["Alegrete","atracao","consulte",0,"Museu do Gaúcho","",null,null,"Museu em Alegrete.",{"g":1}],
  ["Alto Feliz","cachoeira","consulte",1,"Cascata Alto Feliz","",null,null,"Cachoeira em Alto Feliz. Confira o acesso antes de ir.",{"g":1}],
- ["Alto Feliz","atracao","pago",1,"Vinícola Don Guerino","",null,null,"Vinícola em Alto Feliz, com visita ou degustação.",{"g":1}],
+ ["Alto Feliz","vinicola","pago",1,"Vinícola Don Guerino","",null,null,"Vinícola em Alto Feliz, com visita ou degustação.",{"g":1}],
  ["Alto Feliz","cachoeira","consulte",1,"Cascatas do Arroio Jaguar","",null,null,"Cachoeira em Alto Feliz. Confira o acesso antes de ir.",{"g":1}],
  ["Alto Feliz","cachoeira","consulte",1,"Cascata dos Bugres","",null,null,"Cachoeira em Alto Feliz. Confira o acesso antes de ir.",{"g":1}],
  ["Alvorada","parque","gratis",1,"Parque Municipal Lagoa do Cocão","",null,null,"Parque em Alvorada.",{"g":1}],
@@ -1398,7 +1497,7 @@ const L = [
  ["Ametista do Sul","shopping","gratis",0,"Shopping das Pedras","",null,null,"Compras em Ametista do Sul.",{"g":1}],
  ["Ametista do Sul","atracao","consulte",1,"Garimpo em Atividade","",null,null,"Passeio em Ametista do Sul.",{"g":1}],
  ["Ametista do Sul","atracao","consulte",0,"Museu do Bambu e Cia","",null,null,"Museu em Ametista do Sul.",{"g":1}],
- ["Ametista do Sul","atracao","pago",1,"Vinícola Ametista","",null,null,"Vinícola em Ametista do Sul, com visita ou degustação.",{"g":1}],
+ ["Ametista do Sul","vinicola","pago",1,"Vinícola Ametista","",null,null,"Vinícola em Ametista do Sul, com visita ou degustação.",{"g":1}],
  ["Ametista do Sul","rota","gratis",1,"Mirante das Pedras","",null,null,"Mirante em Ametista do Sul.",{"g":1}],
  ["André da Rocha","cachoeira","consulte",1,"Cascata do Catebiró","",null,null,"Cachoeira em André da Rocha. Confira o acesso antes de ir.",{"g":1}],
  ["Anta Gorda","praca","gratis",1,"Praça Central de Anta Gorda","",null,null,"Praça em Anta Gorda.",{"g":1}],
@@ -1550,7 +1649,7 @@ const L = [
  ["Caraá","cachoeira","consulte",1,"Cascata Vila Nova","",null,null,"Cachoeira em Caraá. Confira o acesso antes de ir.",{"g":1}],
  ["Casca","atracao","gratis",1,"Igreja Matriz de Evangelista","",null,null,"Igreja em Casca.",{"g":1}],
  ["Casca","atracao","consulte",0,"Museu Luigi Pinzetta","",null,null,"Museu em Casca.",{"g":1}],
- ["Casca","atracao","pago",1,"Vinícola Don Abel","",null,null,"Vinícola em Casca, com visita ou degustação.",{"g":1}],
+ ["Casca","vinicola","pago",1,"Vinícola Don Abel","",null,null,"Vinícola em Casca, com visita ou degustação.",{"g":1}],
  ["Casca","atracao","consulte",0,"Casa da Cultura de Casca","",null,null,"Espaço cultural em Casca.",{"g":1}],
  ["Cerro Branco","praia","consulte",1,"Balneário Tia Zina","",null,null,"Balneário de água doce em Cerro Branco.",{"g":1}],
  ["Cerro Grande do Sul","atracao","pago",1,"Aquáriu's Park","",null,null,"Parque aquático em Cerro Grande do Sul.",{"g":1}],
@@ -1571,12 +1670,12 @@ const L = [
  ["Colinas","praca","gratis",1,"Praça dos Pássaros","",null,null,"Praça em Colinas.",{"g":1}],
  ["Colinas","praca","gratis",1,"Praça Zoo Vegetal Eldo Schöller","",null,null,"Praça em Colinas.",{"g":1}],
  ["Colinas","atracao","gratis",1,"Estação Ferroviária de Colinas","",null,null,"Estação ferroviária histórica em Colinas.",{"g":1}],
- ["Colinas","atracao","pago",1,"Vinícola Casa Tassinary","",null,null,"Vinícola em Colinas, com visita ou degustação.",{"g":1}],
+ ["Colinas","vinicola","pago",1,"Vinícola Casa Tassinary","",null,null,"Vinícola em Colinas, com visita ou degustação.",{"g":1}],
  ["Colinas","rota","gratis",1,"Morro Thomas","",null,null,"Morro com vista em Colinas.",{"g":1}],
  ["Coronel Barros","atracao","pago",1,"Parque Aquático Good Fish","",null,null,"Parque aquático em Coronel Barros.",{"g":1}],
  ["Cotiporã","cachoeira","consulte",1,"Cascata dos Marin","",null,null,"Cachoeira em Cotiporã. Confira o acesso antes de ir.",{"g":1}],
  ["Cotiporã","cachoeira","consulte",1,"Cascata dos Calzas","",null,null,"Cachoeira em Cotiporã. Confira o acesso antes de ir.",{"g":1}],
- ["Cotiporã","atracao","pago",1,"Vinícola Marson","",null,null,"Vinícola em Cotiporã, com visita ou degustação.",{"g":1}],
+ ["Cotiporã","vinicola","pago",1,"Vinícola Marson","",null,null,"Vinícola em Cotiporã, com visita ou degustação.",{"g":1}],
  ["Crissiumal","praia","consulte",1,"Balneário Amorim","",null,null,"Balneário de água doce em Crissiumal.",{"g":1}],
  ["Crissiumal","praca","gratis",1,"Praça da Matriz de Crissiumal","",null,null,"Praça em Crissiumal.",{"g":1}],
  ["Cristal","atracao","gratis",1,"Ponte sobre o Rio Camaquã","",null,null,"Ponte em Cristal.",{"g":1}],
@@ -1622,7 +1721,7 @@ const L = [
  ["Encruzilhada do Sul","parque","consulte",1,"Parque de Exposições Desidério Finamor","",null,null,"Parque de eventos e exposições de Encruzilhada do Sul.",{"g":1}],
  ["Encruzilhada do Sul","praia","consulte",1,"Balneário Passo da Guarda","",null,null,"Balneário de água doce em Encruzilhada do Sul.",{"g":1}],
  ["Entre-Ijuís","praca","gratis",1,"Praça Caetano Uggeri","",null,null,"Praça em Entre-Ijuís.",{"g":1}],
- ["Entre-Ijuís","atracao","pago",1,"Vinícola Fin","",null,null,"Vinícola em Entre-Ijuís, com visita ou degustação.",{"g":1}],
+ ["Entre-Ijuís","vinicola","pago",1,"Vinícola Fin","",null,null,"Vinícola em Entre-Ijuís, com visita ou degustação.",{"g":1}],
  ["Entre Rios do Sul","praia","consulte",1,"Balneário de Entre Rios do Sul","",null,null,"Balneário de água doce em Entre Rios do Sul.",{"g":1}],
  ["Erebango","praia","consulte",1,"Balneário Cantinho do Lazer","",null,null,"Balneário de água doce em Erebango.",{"g":1}],
  ["Erechim","atracao","consulte",0,"Centro Cultural 25 de Julho","",null,null,"Espaço cultural em Erechim.",{"g":1}],
@@ -1664,7 +1763,7 @@ const L = [
  ["Frederico Westphalen","parque","gratis",1,"Parque Natural Municipal da Vila Faguense","",null,null,"Área natural em Frederico Westphalen.",{"g":1}],
  ["Frederico Westphalen","parque","consulte",1,"Parque de Exposições Monsenhor Vitor Batistella","",null,null,"Parque de eventos e exposições de Frederico Westphalen.",{"g":1}],
  ["Frederico Westphalen","atracao","consulte",0,"Sesc Frederico Westphalen","",null,null,"Espaço cultural em Frederico Westphalen.",{"g":1}],
- ["Frederico Westphalen","atracao","pago",1,"Vinícola Camargo","",null,null,"Vinícola em Frederico Westphalen, com visita ou degustação.",{"g":1}],
+ ["Frederico Westphalen","vinicola","pago",1,"Vinícola Camargo","",null,null,"Vinícola em Frederico Westphalen, com visita ou degustação.",{"g":1}],
  ["Gaurama","cachoeira","consulte",1,"Cascata do Salto","",null,null,"Cachoeira em Gaurama. Confira o acesso antes de ir.",{"g":1}],
  ["General Câmara","praia","gratis",1,"Praia da Cachoeirinha","",null,null,"Praia em General Câmara.",{"g":1}],
  ["General Câmara","lago","gratis",1,"Barragem de Amarópolis","",null,null,"Barragem em General Câmara.",{"g":1}],
@@ -1694,7 +1793,7 @@ const L = [
  ["Guaíba","praia","gratis",1,"Praia da Alegria","",null,null,"Praia em Guaíba.",{"g":1}],
  ["Guaporé","shopping","gratis",0,"Belas Guaporé","",null,null,"Compras em Guaporé.",{"g":1}],
  ["Guaporé","rota","gratis",1,"Cristo Redentor de Guaporé","",null,null,"Mirante em Guaporé.",{"g":1}],
- ["Guaporé","atracao","pago",1,"Vinícola Giaretta","",null,null,"Vinícola em Guaporé, com visita ou degustação.",{"g":1}],
+ ["Guaporé","vinicola","pago",1,"Vinícola Giaretta","",null,null,"Vinícola em Guaporé, com visita ou degustação.",{"g":1}],
  ["Guaporé","atracao","gratis",1,"Estação Ferroviária de Guaporé","",null,null,"Estação ferroviária histórica em Guaporé.",{"g":1}],
  ["Guaporé","atracao","consulte",1,"Trem dos Vales","",null,null,"Passeio em Guaporé.",{"g":1}],
  ["Guaporé","praca","gratis",1,"Praça Getúlio Vargas","",null,null,"Praça em Guaporé.",{"g":1}],
@@ -1746,7 +1845,7 @@ const L = [
  ["Itaara","parque","consulte",1,"Parque Pinhal","",null,null,"Parque em Itaara.",{"g":1}],
  ["Itaara","cachoeira","consulte",1,"Cascata da Usina","",null,null,"Cachoeira em Itaara. Confira o acesso antes de ir.",{"g":1}],
  ["Itaara","praia","consulte",1,"Balneário Parque Serrano","",null,null,"Balneário de água doce em Itaara.",{"g":1}],
- ["Itaara","atracao","pago",1,"Vinícola Velho Amâncio","",null,null,"Vinícola em Itaara, com visita ou degustação.",{"g":1}],
+ ["Itaara","vinicola","pago",1,"Vinícola Velho Amâncio","",null,null,"Vinícola em Itaara, com visita ou degustação.",{"g":1}],
  ["Itaqui","atracao","consulte",1,"Porto de Itaqui","",null,null,"Ponto turístico de Itaqui.",{"g":1}],
  ["Itaqui","parque","consulte",1,"Parque Fermino Fernandes Lima","",null,null,"Parque em Itaqui.",{"g":1}],
  ["Itaqui","atracao","gratis",1,"Ponte do Ibicuí","",null,null,"Ponte em Itaqui.",{"g":1}],
@@ -1822,13 +1921,13 @@ const L = [
  ["Monte Belo do Sul","rota","gratis",1,"Mirante do Pórtico de Monte Belo do Sul","",null,null,"Mirante em Monte Belo do Sul.",{"g":1}],
  ["Monte Belo do Sul","atracao","consulte",0,"Museu da Famiglia Tasca","",null,null,"Museu em Monte Belo do Sul.",{"g":1}],
  ["Monte Belo do Sul","rota","gratis",1,"Mirante Dal Castel","",null,null,"Mirante em Monte Belo do Sul.",{"g":1}],
- ["Monte Belo do Sul","atracao","pago",1,"Vinícola Calza","",null,null,"Vinícola em Monte Belo do Sul, com visita ou degustação.",{"g":1}],
+ ["Monte Belo do Sul","vinicola","pago",1,"Vinícola Calza","",null,null,"Vinícola em Monte Belo do Sul, com visita ou degustação.",{"g":1}],
  ["Montenegro","parque","consulte",1,"Parque Centenário Erni Carlos Heller","",null,null,"Parque em Montenegro.",{"g":1}],
  ["Montenegro","praca","gratis",1,"Praça Rui Barbosa","",null,null,"Praça em Montenegro.",{"g":1}],
  ["Montenegro","atracao","consulte",1,"Café da Estação","",null,null,"Passeio em Montenegro.",{"g":1}],
  ["Montenegro","praca","gratis",1,"Praça dos Ferroviários","",null,null,"Praça em Montenegro.",{"g":1}],
  ["Montenegro","atracao","gratis",1,"Catedral São João Batista","",null,null,"Igreja em Montenegro.",{"g":1}],
- ["Morro Redondo","atracao","pago",1,"Vinícola Nardello","",null,null,"Vinícola em Morro Redondo, com visita ou degustação.",{"g":1}],
+ ["Morro Redondo","vinicola","pago",1,"Vinícola Nardello","",null,null,"Vinícola em Morro Redondo, com visita ou degustação.",{"g":1}],
  ["Morro Redondo","atracao","pago",1,"Sítio Amoreza","",null,null,"Sítio de lazer em Morro Redondo.",{"g":1}],
  ["Morro Reuter","rota","gratis",1,"Mirante de Morro Reuter","",null,null,"Mirante em Morro Reuter.",{"g":1}],
  ["Morro Reuter","atracao","consulte",1,"Caminho das Serpentes Encantadas","",null,null,"Passeio em Morro Reuter.",{"g":1}],
@@ -1855,10 +1954,10 @@ const L = [
  ["Nova Hartz","praia","consulte",1,"City Park São Jorge","",null,null,"Balneário de água doce em Nova Hartz.",{"g":1}],
  ["Nova Hartz","atracao","gratis",1,"Paróquia Nossa Senhora de Lourdes","",null,null,"Igreja em Nova Hartz.",{"g":1}],
  ["Nova Hartz","cachoeira","consulte",1,"Cascata do Arroio da Bica","",null,null,"Cachoeira em Nova Hartz. Confira o acesso antes de ir.",{"g":1}],
- ["Nova Pádua","atracao","pago",1,"Adega Dom Camilo","",null,null,"Vinícola em Nova Pádua, com visita ou degustação.",{"g":1}],
+ ["Nova Pádua","vinicola","pago",1,"Adega Dom Camilo","",null,null,"Vinícola em Nova Pádua, com visita ou degustação.",{"g":1}],
  ["Nova Pádua","atracao","gratis",1,"Pórtico de Nova Pádua","",null,null,"Monumento em Nova Pádua.",{"g":1}],
  ["Nova Pádua","atracao","gratis",1,"Igreja Matriz de Nova Pádua","",null,null,"Igreja em Nova Pádua.",{"g":1}],
- ["Nova Pádua","atracao","pago",1,"Vinícola Fabian","",null,null,"Vinícola em Nova Pádua, com visita ou degustação.",{"g":1}],
+ ["Nova Pádua","vinicola","pago",1,"Vinícola Fabian","",null,null,"Vinícola em Nova Pádua, com visita ou degustação.",{"g":1}],
  ["Nova Prata","rota","gratis",1,"Mirante de Nova Prata","",null,null,"Mirante em Nova Prata.",{"g":1}],
  ["Nova Prata","atracao","gratis",1,"Gruta Nossa Senhora de Lourdes","",null,null,"Gruta em Nova Prata.",{"g":1}],
  ["Nova Prata","atracao","gratis",1,"Pórtico Sul","",null,null,"Monumento em Nova Prata.",{"g":1}],
@@ -1867,7 +1966,7 @@ const L = [
  ["Nova Roma do Sul","praca","gratis",1,"Praça de Nova Roma do Sul","",null,null,"Praça em Nova Roma do Sul.",{"g":1}],
  ["Nova Roma do Sul","cachoeira","consulte",1,"Cachoeirão do Rio das Antas","",null,null,"Cachoeira em Nova Roma do Sul. Confira o acesso antes de ir.",{"g":1}],
  ["Nova Roma do Sul","atracao","gratis",1,"Gruta Nossa Senhora de Lourdes","",null,null,"Gruta em Nova Roma do Sul.",{"g":1}],
- ["Nova Roma do Sul","atracao","pago",1,"Vinícola de Bastiani","",null,null,"Vinícola em Nova Roma do Sul, com visita ou degustação.",{"g":1}],
+ ["Nova Roma do Sul","vinicola","pago",1,"Vinícola de Bastiani","",null,null,"Vinícola em Nova Roma do Sul, com visita ou degustação.",{"g":1}],
  ["Nova Santa Rita","atracao","consulte",1,"Velopark","",null,null,"Ponto turístico de Nova Santa Rita.",{"g":1}],
  ["Nova Santa Rita","parque","consulte",1,"Parque de Eventos Olmiro Brandão","",null,null,"Parque de eventos e exposições de Nova Santa Rita.",{"g":1}],
  ["Nova Santa Rita","atracao","gratis",1,"Paróquia Santa Rita","",null,null,"Igreja em Nova Santa Rita.",{"g":1}],
@@ -1918,9 +2017,9 @@ const L = [
  ["Picada Café","rota","gratis",1,"Mirante Edgar Michaelsen","",null,null,"Mirante em Picada Café.",{"g":1}],
  ["Picada Café","praca","gratis",1,"Praça Santa Joana Francisca de Chantal","",null,null,"Praça em Picada Café.",{"g":1}],
  ["Picada Café","atracao","gratis",1,"Pórtico de Picada Café","",null,null,"Monumento em Picada Café.",{"g":1}],
- ["Pinto Bandeira","atracao","pago",1,"Vinícola Família Geisse","",null,null,"Vinícola em Pinto Bandeira, com visita ou degustação.",{"g":1}],
- ["Pinto Bandeira","atracao","pago",1,"Vinícola Don Giovanni","",null,null,"Vinícola em Pinto Bandeira, com visita ou degustação.",{"g":1}],
- ["Pinto Bandeira","atracao","pago",1,"Vinícola Valmarino","",null,null,"Vinícola em Pinto Bandeira, com visita ou degustação.",{"g":1}],
+ ["Pinto Bandeira","vinicola","pago",1,"Vinícola Família Geisse","",null,null,"Vinícola em Pinto Bandeira, com visita ou degustação.",{"g":1}],
+ ["Pinto Bandeira","vinicola","pago",1,"Vinícola Don Giovanni","",null,null,"Vinícola em Pinto Bandeira, com visita ou degustação.",{"g":1}],
+ ["Pinto Bandeira","vinicola","pago",1,"Vinícola Valmarino","",null,null,"Vinícola em Pinto Bandeira, com visita ou degustação.",{"g":1}],
  ["Piratini","parque","consulte",1,"Parque do Sindicato Rural de Piratini","",null,null,"Parque de eventos e exposições de Piratini.",{"g":1}],
  ["Piratini","atracao","gratis",1,"Ponte do Império","",null,null,"Ponte em Piratini.",{"g":1}],
  ["Planalto","atracao","consulte",0,"Museu do Bambu","",null,null,"Museu em Planalto.",{"g":1}],
@@ -1962,7 +2061,7 @@ const L = [
  ["Rolante","praca","gratis",1,"Praça da Matriz de Rolante","",null,null,"Praça em Rolante.",{"g":1}],
  ["Rolante","cachoeira","consulte",1,"Cascata das Três Quedas","",null,null,"Cachoeira em Rolante. Confira o acesso antes de ir.",{"g":1}],
  ["Rolante","shopping","gratis",0,"Casa da Colônia de Rolante","",null,null,"Compras em Rolante.",{"g":1}],
- ["Rolante","atracao","pago",1,"Vinícola Finger","",null,null,"Vinícola em Rolante, com visita ou degustação.",{"g":1}],
+ ["Rolante","vinicola","pago",1,"Vinícola Finger","",null,null,"Vinícola em Rolante, com visita ou degustação.",{"g":1}],
  ["Ronda Alta","praca","gratis",1,"Praça Mose Míssio","",null,null,"Praça em Ronda Alta.",{"g":1}],
  ["Ronda Alta","praia","consulte",1,"Balneário Passo da Entrada","",null,null,"Balneário de água doce em Ronda Alta.",{"g":1}],
  ["Roque Gonzales","praia","gratis",1,"Prainha de Roque Gonzales","",null,null,"Praia em Roque Gonzales.",{"g":1}],
@@ -2084,7 +2183,7 @@ const L = [
  ["São Marcos","rota","gratis",1,"Monte Calvário","",null,null,"Morro com vista em São Marcos.",{"g":1}],
  ["São Marcos","praca","gratis",1,"Praça Dante Marcucci","",null,null,"Praça em São Marcos.",{"g":1}],
  ["São Marcos","praia","consulte",1,"Balneário Vale das Montanhas","",null,null,"Balneário de água doce em São Marcos.",{"g":1}],
- ["São Marcos","atracao","pago",1,"Vinícola Sinuelo","",null,null,"Vinícola em São Marcos, com visita ou degustação.",{"g":1}],
+ ["São Marcos","vinicola","pago",1,"Vinícola Sinuelo","",null,null,"Vinícola em São Marcos, com visita ou degustação.",{"g":1}],
  ["São Marcos","parque","consulte",1,"Parque Albino Antônio Ruaro","",null,null,"Parque em São Marcos.",{"g":1}],
  ["São Marcos","atracao","gratis",1,"Paróquia São Marcos","",null,null,"Igreja em São Marcos.",{"g":1}],
  ["São Martinho","cachoeira","consulte",1,"Cascata de Mineiro","",null,null,"Cachoeira em São Martinho. Confira o acesso antes de ir.",{"g":1}],
@@ -2138,7 +2237,7 @@ const L = [
  ["Sinimbu","cachoeira","consulte",1,"Cascata Salto do Rio Pardinho","",null,null,"Cachoeira em Sinimbu. Confira o acesso antes de ir.",{"g":1}],
  ["Sobradinho","praia","consulte",1,"Balneário Curva do Rio","",null,null,"Balneário de água doce em Sobradinho.",{"g":1}],
  ["Sobradinho","atracao","gratis",1,"Paróquia Nossa Senhora dos Navegantes","",null,null,"Igreja em Sobradinho.",{"g":1}],
- ["Sobradinho","atracao","pago",1,"Vinícola Granja do Silêncio","",null,null,"Vinícola em Sobradinho, com visita ou degustação.",{"g":1}],
+ ["Sobradinho","vinicola","pago",1,"Vinícola Granja do Silêncio","",null,null,"Vinícola em Sobradinho, com visita ou degustação.",{"g":1}],
  ["Soledade","parque","consulte",1,"Parque Centenário Rui Ortiz","",null,null,"Parque em Soledade.",{"g":1}],
  ["Soledade","praca","gratis",1,"Praça Olmiro Ferreira Porto","",null,null,"Praça em Soledade.",{"g":1}],
  ["Soledade","atracao","gratis",1,"Igreja Nossa Senhora da Soledade","",null,null,"Igreja em Soledade.",{"g":1}],
@@ -2196,7 +2295,7 @@ const L = [
  ["Três de Maio","praia","consulte",1,"Balneário Cactos","",null,null,"Balneário de água doce em Três de Maio.",{"g":1}],
  ["Três de Maio","atracao","gratis",1,"Paróquia Nossa Senhora da Conceição","",null,null,"Igreja em Três de Maio.",{"g":1}],
  ["Três Forquilhas","rota","gratis",1,"Cânion Pedras Brancas","",null,null,"Mirante em Três Forquilhas.",{"g":1}],
- ["Três Palmeiras","atracao","pago",1,"Vinícola Louscher","",null,null,"Vinícola em Três Palmeiras, com visita ou degustação.",{"g":1}],
+ ["Três Palmeiras","vinicola","pago",1,"Vinícola Louscher","",null,null,"Vinícola em Três Palmeiras, com visita ou degustação.",{"g":1}],
  ["Três Passos","parque","consulte",1,"Parque do Lago Frei Ivo","",null,null,"Parque em Três Passos.",{"g":1}],
  ["Três Passos","parque","consulte",1,"Jardim Temático Genealógico Rückert-Thal","",null,null,"Parque em Três Passos.",{"g":1}],
  ["Três Passos","parque","consulte",1,"Parque de Exposições Egon Júlio Goelzer","",null,null,"Parque de eventos e exposições de Três Passos.",{"g":1}],
@@ -2217,7 +2316,7 @@ const L = [
  ["Uruguaiana","praca","gratis",1,"Praça Argentina","",null,null,"Praça em Uruguaiana.",{"g":1}],
  ["Uruguaiana","atracao","pago",1,"Maria Fumaça Park","",null,null,"Parque aquático em Uruguaiana.",{"g":1}],
  ["Uruguaiana","shopping","gratis",0,"Mercado Público Municipal de Uruguaiana","",null,null,"Compras em Uruguaiana.",{"g":1}],
- ["Vacaria","atracao","pago",1,"Vinícola Campestre","",null,null,"Vinícola em Vacaria, com visita ou degustação.",{"g":1}],
+ ["Vacaria","vinicola","pago",1,"Vinícola Campestre","",null,null,"Vinícola em Vacaria, com visita ou degustação.",{"g":1}],
  ["Vacaria","parque","consulte",1,"Parque das Cachoeiras","",null,null,"Parque em Vacaria.",{"g":1}],
  ["Vacaria","atracao","pago",1,"Fazenda do Socorro","",null,null,"Sítio de lazer em Vacaria.",{"g":1}],
  ["Vacaria","atracao","gratis",1,"Igreja Nossa Senhora da Glória","",null,null,"Igreja em Vacaria.",{"g":1}],
@@ -2257,13 +2356,58 @@ const L = [
  ["Vila Flores","atracao","consulte",1,"L'arte Ceccato","",null,null,"Ponto turístico de Vila Flores.",{"g":1}],
  ["Vila Maria","cachoeira","consulte",1,"Cascata do Maringá","",null,null,"Cachoeira em Vila Maria. Confira o acesso antes de ir.",{"g":1}],
  ["Vila Maria","cachoeira","consulte",1,"Cascata do Porongo","",null,null,"Cachoeira em Vila Maria. Confira o acesso antes de ir.",{"g":1}],
- ["Vila Maria","atracao","pago",1,"Casa Bianchi Vinícola","",null,null,"Vinícola em Vila Maria, com visita ou degustação.",{"g":1}],
+ ["Vila Maria","vinicola","pago",1,"Casa Bianchi Vinícola","",null,null,"Vinícola em Vila Maria, com visita ou degustação.",{"g":1}],
  ["Vila Maria","parque","consulte",1,"Parque de Eventos de Vila Maria","",null,null,"Parque de eventos e exposições de Vila Maria.",{"g":1}],
  ["Vista Alegre do Prata","parque","consulte",1,"Parque Zootrilhas","",null,null,"Área natural em Vista Alegre do Prata.",{"g":1}],
  ["Westfália","praia","consulte",1,"Paraíso Paisandu","",null,null,"Balneário de água doce em Westfália.",{"g":1}],
  ["Westfália","lago","gratis",1,"Lagoa do Tico Tico","",null,null,"Lago em Westfália.",{"g":1}],
  ["Xangri-lá","atracao","gratis",1,"Paróquia São Pedro","",null,null,"Igreja em Xangri-lá.",{"g":1}],
- ["Xangri-lá","praia","gratis",1,"Praia de Maristela","",null,null,"Praia em Xangri-lá.",{"g":1}]
+ ["Xangri-lá","praia","gratis",1,"Praia de Maristela","",null,null,"Praia em Xangri-lá.",{"g":1}],
+ ["Bento Gonçalves","vinicola","consulte",0,"Vinícola Miolo","Vale dos Vinhedos",null,null,"Uma das maiores vinícolas do país, com visita guiada, degustação e loja no Vale dos Vinhedos.",{"k":"Reserve a visita guiada no fim de semana."}],
+ ["Bento Gonçalves","vinicola","consulte",0,"Casa Valduga","Vale dos Vinhedos",null,null,"Complexo de enoturismo com cave subterrânea, degustações, restaurante e loja de vinhos e espumantes.",{"k":"Os passeios com degustação costumam lotar: agende antes."}],
+ ["Bento Gonçalves","vinicola","consulte",0,"Vinícola Aurora","Centro",null,null,"Cooperativa centenária no centro de Bento, com visita guiada pelas caves e degustação no final.",{"k":"Dá para ir a pé do centro da cidade."}],
+ ["Bento Gonçalves","vinicola","consulte",0,"Vinícola Salton","Tuiuty",null,null,"Uma das vinícolas mais antigas do Brasil, famosa pelos espumantes, com visitas e degustações.",{}],
+ ["Bento Gonçalves","vinicola","consulte",0,"Vinícola Lidio Carraro","Vale dos Vinhedos",null,null,"Vinícola boutique conhecida pelos vinhos elaborados sem passar por madeira.",{}],
+ ["Bento Gonçalves","vinicola","consulte",0,"Vinícola Pizzato","Vale dos Vinhedos",null,null,"Vinícola familiar do Vale dos Vinhedos, com degustação dos vinhos da casa.",{}],
+ ["Bento Gonçalves","vinicola","consulte",0,"Vinícola Don Laurindo","Vale dos Vinhedos",null,null,"Vinícola familiar com degustação e venda direta, num dos trechos mais bonitos do Vale.",{}],
+ ["Bento Gonçalves","vinicola","consulte",0,"Vinícola Larentis","Vale dos Vinhedos",null,null,"Vinícola familiar com vista para os parreirais e degustação dos rótulos da casa.",{}],
+ ["Bento Gonçalves","vinicola","consulte",0,"Vinícola Almaúnica","Vale dos Vinhedos",null,null,"Vinícola boutique do Vale dos Vinhedos, com degustação guiada.",{}],
+ ["Bento Gonçalves","vinicola","consulte",0,"Vinícola Cristofoli","Faria Lemos",null,null,"Vinícola familiar no distrito de Faria Lemos, com degustação e passeio pelos parreirais.",{}],
+ ["Garibaldi","vinicola","consulte",0,"Cooperativa Vinícola Garibaldi","Centro",null,null,"Cooperativa tradicional da capital do espumante, com loja, degustação e visitas.",{"k":"Boa parada para comprar espumante com preço de fábrica."}],
+ ["Garibaldi","vinicola","consulte",0,"Vinícola Vaccaro","Interior",null,null,"Vinícola familiar com piqueniques entre os parreirais, mediante agendamento.",{"k":"Combine o piquenique antes de ir."}],
+ ["Flores da Cunha","vinicola","consulte",0,"Vinícola Viapiana","Caminhos do Alfredo",null,null,"Vinícola no roteiro Caminhos do Alfredo, com restaurante de menu degustação nos fins de semana.",{}],
+ ["Flores da Cunha","vinicola","consulte",0,"Vinícola Bebber","Caminhos do Alfredo",null,null,"Vinícola familiar com degustação, tábua de frios e croquetes.",{}],
+ ["Flores da Cunha","vinicola","consulte",0,"Vinícola Gazzaro","Otávio Rocha",null,null,"Vinícola no distrito de Otávio Rocha que abre todos os dias para degustação com tábuas e brusquetas.",{}],
+ ["Caxias do Sul","atracao","consulte",0,"Museu Municipal de Caxias do Sul","Centro",null,null,"Casarão histórico com acervo sobre a imigração italiana e a formação da cidade.",{}],
+ ["Caxias do Sul","atracao","consulte",0,"Centro de Cultura Dr. Henrique Ordovás Filho","Panazzolo",null,null,"Antiga cantina restaurada que abriga teatro, galerias, exposições e cinema.",{"k":"Confira a agenda: há espetáculos e mostras quase toda semana."}],
+ ["Caxias do Sul","atracao","consulte",0,"Centro Cultural Moinho da Cascata","",null,null,"Antigo moinho restaurado que recebe espetáculos infantis e programação cultural aos domingos.",{}],
+ ["Caxias do Sul","atracao","pago",0,"Teatro da UCS","Petrópolis",null,null,"Principal teatro da cidade, no campus da UCS, com shows, concertos e espetáculos.",{}],
+ ["Gramado","atracao","consulte",0,"Palácio dos Festivais","Centro",null,null,"Sede do Festival de Cinema de Gramado, na Avenida Borges de Medeiros, com a calçada da fama em frente.",{"k":"Foto clássica com o Kikito na frente do Palácio."}],
+ ["Gramado","atracao","pago",0,"Hollywood Dream Cars","",null,null,"Museu de carros antigos e clássicos do cinema, com cenários dos anos 50.",{}],
+ ["Gramado","atracao","pago",0,"Museu de Cera Dreamland","",null,null,"Museu de cera com estátuas de celebridades, personagens e cenários para fotos.",{}],
+ ["Gramado","atracao","consulte",0,"Fábrica de Chocolate Prawer","",null,null,"Fábrica de chocolate artesanal com visita ao processo de produção e loja.",{}],
+ ["Gramado","atracao","pago",1,"Gramado Termas Park","",null,null,"Parque aquático com piscinas aquecidas, toboáguas e área infantil.",{"k":"Funciona o ano todo, mas confira os dias abertos fora da temporada."}],
+ ["Canela","cachoeira","pago",1,"Ecoparque Sperry","",null,null,"Parque com trilhas na mata e cascatas, entre elas a Cascata do Sperry.",{"k":"Vá de calçado fechado: as trilhas têm trechos com barro."}],
+ ["Porto Alegre","atracao","gratis",0,"MARGS: Museu de Arte do Rio Grande do Sul","Centro Histórico",null,null,"Principal museu de arte do estado, na Praça da Alfândega, com exposições de arte gaúcha e brasileira.",{}],
+ ["Porto Alegre","atracao","consulte",0,"Theatro São Pedro","Centro Histórico",null,null,"Teatro de 1858 na Praça da Matriz, um dos mais antigos do país, com espetáculos e concertos.",{}],
+ ["Porto Alegre","atracao","gratis",0,"Catedral Metropolitana de Porto Alegre","Centro Histórico",null,null,"Catedral com cúpula imponente ao lado do Palácio Piratini, na Praça da Matriz.",{}],
+ ["Porto Alegre","atracao","gratis",0,"Farol Santander","Centro Histórico",null,null,"Centro cultural em prédio histórico na Praça da Alfândega, com exposições e cofre antigo para visitar.",{}],
+ ["Porto Alegre","atracao","consulte",0,"Museu Julio de Castilhos","Centro Histórico",null,null,"Museu mais antigo do estado, com acervo sobre a história gaúcha.",{}],
+ ["Porto Alegre","atracao","pago",0,"Estádio Beira-Rio","Menino Deus",null,null,"Estádio do Internacional à beira do Guaíba, com museu e tour pelo estádio.",{}],
+ ["Porto Alegre","atracao","pago",0,"Arena do Grêmio","Humaitá",null,null,"Estádio do Grêmio, com tour guiado e museu do clube.",{}],
+ ["Porto Alegre","atracao","pago",0,"Planetário Prof. José Baptista Pereira","Santana",null,null,"Planetário da UFRGS com sessões de cúpula para todas as idades.",{}],
+ ["Nova Petrópolis","atracao","consulte",0,"Edelbrau Cervejaria","Centro",null,null,"Cervejaria artesanal com petiscos, tábuas de frios e o tradicional bolinho de batata.",{}],
+ ["Nova Petrópolis","atracao","consulte",0,"Traum Cervejas Artesanais","Linha Imperial",null,null,"Cervejaria artesanal na Linha Imperial, com chope da casa e petiscos.",{}],
+ ["Farroupilha","atracao","consulte",0,"Blauth Bier Cervejaria","",null,null,"Cervejaria artesanal com chopes da casa e petiscos.",{}],
+ ["Alto Feliz","atracao","consulte",0,"Cervejaria Uffenberg","",null,null,"Cervejaria artesanal do Vale do Caí, com rótulos próprios.",{}],
+ ["Gramado","atracao","pago",0,"Café Colonial Bela Vista","Av. das Hortênsias",null,null,"Café colonial em bufê com dezenas de pães, cucas, tortas, frios e pratos quentes.",{"k":"Vá com fome: o bufê é livre."}],
+ ["Nova Petrópolis","atracao","pago",0,"Recanto dos Plátanos","Vila Olinda (BR-116)",null,null,"Café colonial com grande variedade de pães, bolos, queijos, embutidos e geleias.",{}],
+ ["Picada Café","atracao","pago",0,"Dahmer Haus Café Colonial","",null,null,"Café colonial alemão na Rota Romântica.",{}],
+ ["Picada Café","atracao","pago",0,"Café Colonial Encosta da Serra","",null,null,"Café colonial com cucas, pães e frios caseiros.",{}],
+ ["Morro Reuter","atracao","pago",0,"Café Colonial Walachay","",null,null,"Café colonial tradicional de Morro Reuter, na Rota Romântica.",{}],
+ ["Dois Irmãos","atracao","pago",0,"Café Colonial do Restaurante Santa Cecília","",null,null,"Café colonial com pratos típicos da imigração alemã.",{}],
+ ["Monte Belo do Sul","atracao","pago",0,"Bello Sapore","",null,null,"Armazém colonial com café colonial e piquenique nos fins de semana.",{}],
+ ["Gramado","atracao","consulte",0,"Cervejaria Rasen","",null,null,"Cervejaria artesanal de Gramado com chopes da casa e cozinha de bar.",{}]
 ];
 const RESTAURANTES = [
  // ---------- ONDE ALMOÇAR: uma sugestão por cidade (pesquisa de outubro de 2026) ----------
@@ -2317,6 +2461,20 @@ const EVENTOS = [
  {c:'farroupilha',p:'pago',a:1,n:'10ª Violada dos Guris',i:'2026-11-07',f:'2026-11-07',b:'Blauth Bier Cervejaria, Nova Sardenha',d:'Festa com show sertanejo de Vitor Henrique & Gabriel, pagode e DJ, das 15h às 21h. Para maiores de 18 anos.',k:'Ingressos pela Eventiza. Em caso de chuva, muda de local.'},
  {c:'farroupilha',p:'consulte',a:1,n:'Festival do Moscatel: Edição Garden',i:'2026-11-07',f:'2026-11-14',b:'Vinícolas de Farroupilha (itinerante)',d:'Edição itinerante do festival do moscatel nas vinícolas do município, nos sábados 7 e 14 de novembro.'},
  {c:'farroupilha',p:'consulte',a:1,n:'Feira do Livro de Farroupilha',i:'2026-11-10',f:'2026-11-15',b:'Praça da Emancipação',d:'Feira do livro na praça central da cidade.'},
+ {c:'caxias-do-sul',p:'pago',a:0,n:'Expochurrasco 2026',i:'2026-11-07',f:'2026-11-07',b:'Pavilhões da Festa da Uva',lat:-29.15,lon:-51.2,d:'Festival de churrasco com estações gastronômicas de pitmasters, shows, apresentações culturais, carros antigos e área kids. Das 10h às 18h; open food das 12h às 16h.',k:'Ingressos Passaporte e Camarote na plataforma Uhuu. Bebidas à parte.'},
+ {c:'caxias-do-sul',p:'pago',a:0,n:'Circo Maximus',i:'2026-11-02',f:'2026-11-08',b:'Estacionamento do Shopping Villagio Caxias',lat:-29.176,lon:-51.218,d:'Espetáculo de circo. Seg, ter, qui e sex às 20h; sábados, domingos e feriados às 16h, 18h e 20h.',k:'Ingressos a partir de R$ 15. Classificação livre.'},
+ {c:'caxias-do-sul',p:'pago',a:0,n:'Uma Noite com os Bee Gees: especial sinfônico',i:'2026-11-11',f:'2026-11-11',b:'Teatro da UCS',d:'Concerto sinfônico com os sucessos dos Bee Gees.'},
+ {c:'caxias-do-sul',p:'gratis',a:1,n:'O Grande Espetáculo de Natal Magnabosco',i:'2026-11-28',f:'2026-11-29',b:'Praça Dante Alighieri, junto à Casa Magnabosco',d:'10ª edição do espetáculo de Natal ao ar livre, "A Luz que Atravessa o Tempo", com música, dança, circo e poesia. Às 20h, cerca de uma hora.',k:'Entrada gratuita. Chegue cedo para pegar lugar.'},
+ {c:'bento-goncalves',p:'gratis',a:1,n:'5º Natal nos Vinhedos',i:'2026-11-27',f:'2026-12-12',b:'Vale dos Vinhedos, RS-444, km 21',d:'Seis noites de shows gratuitos (27 e 28/11, 4, 5, 11 e 12/12), Vila de Natal com artesãos e rota de enogastronomia com mais de 35 marcas.',k:'Expresso Natal nos Vinhedos sai da Vinícola Aurora (passaporte R$ 40).'},
+ {c:'garibaldi',p:'gratis',a:1,n:'Natal Borbulhante 2026',i:'2026-11-27',f:'2027-01-06',b:'Centro Histórico e Praça Loureiro da Silva',d:'Vila Natalina, shows de quinta a domingo, Parada de Natal, neve artificial e Papai Noel, com barracas de grostoli, crepes e espumantes.'},
+ {c:'carlos-barbosa',p:'consulte',a:1,n:'Natal no Caminho das Estrelas',i:'2026-11-28',f:'2027-01-06',b:'Centro, Rua Rio Branco',d:'Arcos iluminados, 70 árvores decoradas, chegada do Papai Noel, Paradas de Natal, happy hours e Feira de Natal.',k:'Abertura prevista para 28/11. Confira a programação no site da prefeitura.'},
+ {c:'farroupilha',p:'consulte',a:0,n:'Festival do Chopp de Farroupilha',i:'2026-11-27',f:'2026-11-29',b:'Farroupilha (local a confirmar)',d:'Festival com as cervejarias locais.',k:'Local ainda a confirmar pela prefeitura.'},
+ {c:'farroupilha',p:'consulte',a:1,n:'Vivere',i:'2026-12-11',f:'2026-12-11',b:'Largo Carlos Fetter',d:'Música, gastronomia e vinícolas na festa de aniversário de Farroupilha.'},
+ {c:'farroupilha',p:'gratis',a:1,n:'Inesquecível Natal de Todos',i:'2026-12-12',f:'2026-12-12',b:'Largo Carlos Fetter',d:'Abertura do Natal de Farroupilha com a chegada do Papai Noel.'},
+ {c:'dois-irmaos',p:'consulte',a:1,n:'Natal dos Anjos',i:'2026-11-19',f:'2027-01-06',b:'Centro de Dois Irmãos',d:'Programação de Natal com decoração temática de anjos pela cidade.'},
+ {c:'santa-maria-do-herval',p:'consulte',a:1,n:'Feliz Natal em Herval',i:'2026-12-04',f:'2026-12-31',b:'Centro de Santa Maria do Herval',d:'20º Fröhliche Weihnachten im Teewald, o Natal de tradição alemã do município.'},
+ {c:'coronel-pilar',p:'consulte',a:0,n:'Expo Coronel Pilar',i:'2026-11-14',f:'2026-11-15',b:'Coronel Pilar',d:'Feira do município com produtos coloniais e programação para a família.'},
+ {c:'jaquirana',p:'pago',a:1,n:'Rodeio Nacional de Jaquirana',i:'2026-12-17',f:'2026-12-20',b:'Parque de rodeios de Jaquirana',d:'Rodeio crioulo com provas campeiras, gineteadas e bailes.'},
  // ---------- OUTRAS REGIÕES ----------
  {c:'porto-alegre',p:'gratis',a:0,n:'Exposição André Severo no MARGS',i:'2026-10-18',f:'2026-11-15',b:'MARGS, Praça da Alfândega',lat:-30.0279,lon:-51.2306,d:'Mostra A onda de Gustave Courbet. Entrada gratuita, de terça a domingo, das 10h às 19h.'},
  {c:'porto-alegre',p:'gratis',a:1,n:'72ª Feira do Livro de Porto Alegre',i:'2026-10-30',f:'2026-11-15',b:'Praça da Alfândega',lat:-30.0283,lon:-51.2310,d:'A tradicional feira do livro na praça, com bancas, autógrafos e programação cultural.'},
@@ -2330,7 +2488,32 @@ const EVENTOS = [
  {c:'dom-pedrito',p:'consulte',a:0,n:'Ponche Verde da Canção Gaúcha',i:'2026-11-06',f:'2026-11-08',b:'Dom Pedrito',d:'Tradicional festival de música nativista da Campanha.'},
  {c:'picada-cafe',p:'consulte',a:1,n:'7º Encontro de Cervejeiros e 2º Festival do Hambúrguer',i:'2026-11-07',f:'2026-11-07',b:'Parque Histórico Jorge Kuhn',d:'Cervejas artesanais e hambúrgueres no parque histórico.'},
  {c:'porto-alegre',p:'consulte',a:0,n:'Exposição Uma Viagem ao Mundo dos Brinquedos',i:'2026-07-14',f:'2026-12-13',b:'Farol Santander',d:'Exposição sobre o universo dos brinquedos no Farol Santander, no Centro Histórico.'},
- {c:'porto-alegre',p:'consulte',a:0,n:'Iberê Camargo: quem sabe, o tempo…',i:'2026-07-27',f:'2027-03-28',b:'Fundação Iberê Camargo',d:'Mostra de Iberê Camargo com curadoria de Carmela Gross.'}
+ {c:'porto-alegre',p:'consulte',a:0,n:'Iberê Camargo: quem sabe, o tempo…',i:'2026-07-27',f:'2027-03-28',b:'Fundação Iberê Camargo',d:'Mostra de Iberê Camargo com curadoria de Carmela Gross.'},
+ {c:'porto-alegre',p:'pago',a:0,n:'Maneva',i:'2026-11-06',f:'2026-11-06',b:'Auditório Araújo Vianna',d:'Show de reggae da banda Maneva.'},
+ {c:'porto-alegre',p:'pago',a:0,n:'Elvis in Concert',i:'2026-11-07',f:'2026-11-07',b:'Auditório Araújo Vianna',d:'Espetáculo em homenagem a Elvis Presley.'},
+ {c:'porto-alegre',p:'pago',a:0,n:'Uma Noite com os Bee Gees',i:'2026-11-12',f:'2026-11-12',b:'Auditório Araújo Vianna',d:'Show com os sucessos dos Bee Gees.'},
+ {c:'porto-alegre',p:'pago',a:0,n:'Rodrigo Teaser',i:'2026-11-15',f:'2026-11-15',b:'Auditório Araújo Vianna',d:'Tributo a Michael Jackson com Rodrigo Teaser.'},
+ {c:'porto-alegre',p:'pago',a:0,n:'É Tempo de Rock!',i:'2026-11-21',f:'2026-11-21',b:'Auditório Araújo Vianna',d:'Show com clássicos do rock.'},
+ {c:'porto-alegre',p:'pago',a:0,n:'Whindersson Nunes',i:'2026-11-22',f:'2026-11-22',b:'Auditório Araújo Vianna',d:'Show de humor de Whindersson Nunes.'},
+ {c:'porto-alegre',p:'pago',a:0,n:'O Grande Encontro',i:'2026-11-24',f:'2026-11-24',b:'Auditório Araújo Vianna',d:'Show do projeto O Grande Encontro.'},
+ {c:'porto-alegre',p:'pago',a:1,n:'Chisme Festival 2026',i:'2026-11-28',f:'2026-11-28',b:'Jockey Club do RS',d:'Festival com Aterciopelados, Amaro Freitas, Kleiton & Kledir e outras atrações.'},
+ {c:'porto-alegre',p:'pago',a:0,n:'Lagum',i:'2026-12-11',f:'2026-12-11',b:'Auditório Araújo Vianna',d:'Show da banda Lagum.'},
+ {c:'porto-alegre',p:'pago',a:0,n:'Maria Rita',i:'2026-12-19',f:'2026-12-19',b:'Auditório Araújo Vianna',d:'Show de Maria Rita.'},
+ {c:'pelotas',p:'consulte',a:0,n:'Cardo Peixoto canta Giamarê e outras canções pretas',i:'2026-11-17',f:'2026-11-17',b:'Theatro Sete de Abril',d:'Show da programação do Novembro Negro de Pelotas.'},
+ {c:'pelotas',p:'consulte',a:1,n:'2º Festival da Igualdade Racial',i:'2026-11-20',f:'2026-11-22',b:'Largo do Mercado Público',d:'Shows a partir das 17h: Ojuobá e Dida Larruscain (20/11), Grupo Bom Gosto (21/11) e Arlindinho Cruz (22/11).',k:'Parte do Novembro Negro de Pelotas.'},
+ {c:'erechim',p:'consulte',a:0,n:'FRINAPE 2026',i:'2026-11-12',f:'2026-11-22',b:'FRINAPE',d:'Feira regional de Erechim com exposições, shows e gastronomia.'},
+ {c:'rio-grande',p:'consulte',a:0,n:'Expofeira de Rio Grande',i:'2026-11-12',f:'2026-11-15',b:'Expofeira de Rio Grande',d:'Feira com exposições, comércio, gastronomia e shows.'},
+ {c:'sao-luiz-gonzaga',p:'gratis',a:0,n:'49ª Feira do Livro de São Luiz Gonzaga',i:'2026-11-12',f:'2026-11-22',b:'Centro de São Luiz Gonzaga',d:'Feira do livro com sessões de autógrafos e atividades culturais.'},
+ {c:'sao-luiz-gonzaga',p:'consulte',a:1,n:'Natal Luz das Missões',i:'2026-11-25',f:'2026-12-25',b:'Centro de São Luiz Gonzaga',d:'Programação de Natal com iluminação e atrações na cidade.'},
+ {c:'tavares',p:'consulte',a:1,n:'Rodeio Crioulo Nacional de Tavares',i:'2026-11-12',f:'2026-11-15',b:'Parque de rodeios de Tavares',d:'Rodeio crioulo com provas campeiras e bailes.'},
+ {c:'sapiranga',p:'consulte',a:1,n:'Natal das Rosas',i:'2026-12-01',f:'2026-12-31',b:'Centro de Sapiranga',d:'Programação de Natal na Cidade das Rosas.'},
+ {c:'porto-xavier',p:'consulte',a:1,n:'Natal Sem Fronteiras',i:'2026-12-01',f:'2026-12-24',b:'Centro de Porto Xavier',d:'Programação de Natal na fronteira com a Argentina.'},
+ {c:'porto-xavier',p:'consulte',a:1,n:'Rodeio Crioulo Internacional de Porto Xavier',i:'2026-12-04',f:'2026-12-06',b:'Parque de rodeios de Porto Xavier',d:'Rodeio internacional com provas campeiras.'},
+ {c:'santa-margarida-do-sul',p:'consulte',a:0,n:'27ª Exposição Feira de Santa Margarida do Sul',i:'2026-12-03',f:'2026-12-06',b:'Santa Margarida do Sul',d:'Exposição e feira do município.'},
+ {c:'lagoa-bonita-do-sul',p:'consulte',a:1,n:'Natal em Canto',i:'2026-12-04',f:'2026-12-18',b:'Centro de Lagoa Bonita do Sul',d:'Programação de Natal com apresentações musicais.'},
+ {c:'novo-hamburgo',p:'consulte',a:1,n:'41º Rodeio Interestadual de Lomba Grande',i:'2026-12-05',f:'2026-12-07',b:'Lomba Grande',d:'Rodeio crioulo tradicional de Novo Hamburgo.'},
+ {c:'cachoeira-do-sul',p:'gratis',a:1,n:'Festival Estadual de Bandas Marciais',i:'2026-12-06',f:'2026-12-06',b:'Cachoeira do Sul',d:'Bandas marciais de todo o estado em apresentação.'},
+ {c:'dom-pedrito',p:'consulte',a:1,n:'Natal da Paz',i:'2026-12-13',f:'2026-12-22',b:'Centro de Dom Pedrito',d:'Programação de Natal da cidade.'}
 ];
 // evento sem coordenada própria fica no centro da cidade
 for(const e of EVENTOS) if(e.lat==null){ e.lat = CIDADES[e.c].lat+0.002; e.lon = CIDADES[e.c].lon+0.002; }
@@ -2431,6 +2614,7 @@ $('#btnAtual').onclick = atualizar;
 const hora = n => Math.floor(n)+'h'+(n%1 ? String(Math.round(n%1*60)).padStart(2,'0') : '');
 function acesso(x){
   if(x.t==='restaurante') return {ab:null, txt:x.hr ? '🕒 '+x.hr : 'Confira o horário antes de ir', cls:''};
+  if(x.t==='vinicola') return {ab:null, txt:'Confira os horários e agende a visita', cls:''};
   if(x.t==='evento') return x.agora ? {ab:1,txt:'Acontecendo agora',cls:'ab'} : {ab:0,txt:(x.faltam===1?'Começa amanhã':'Começa em '+x.faltam+' dias'),cls:''};
   if(x.h){
     const d = new Date(), fds = d.getDay()===0||d.getDay()===6, [a,f] = fds ? x.h.fds : x.h.u, t = d.getHours()+d.getMinutes()/60;
@@ -2481,7 +2665,7 @@ function montarChips(){
     s.append(g1); if(g2.children.length) s.append(g2);
     s.onchange = () => irCidade(s.value);
     nomesRoda = ks.filter(k => comLugar[k]).map(k => CIDADES[k].nome);
-    svg.querySelectorAll('.mun').forEach(m => { m.classList.toggle('fora', !naReg(m.dataset.c)); m.classList.toggle('tem', !!comLugar[m.dataset.c]); });
+    estiloMun();
   }
   s.value = estado.cidade;
   const f = $('#filtros'), rol = f.scrollLeft; f.textContent = '';
@@ -2492,7 +2676,7 @@ function montarChips(){
   f.append(chip('Pago', estado.preco==='pago', mudar(() => estado.preco = estado.preco==='pago'?'todos':'pago')));
   f.append(chip('Ar livre', estado.ar, mudar(() => estado.ar = !estado.ar)));
   const sp = document.createElement('span'); sp.className = 'sep'; f.append(sp);
-  for(const k of ['parque','praca','praia','cachoeira','lago','rota','atracao','shopping'])
+  for(const k of ['parque','praca','praia','cachoeira','lago','rota','vinicola','atracao','shopping'])
     f.append(chip(TIPOS[k].e+' '+TIPOS[k].nome, estado.tipo===k, mudar(() => estado.tipo = estado.tipo===k?'tudo':k)));
   f.append(chip('🏷️ Promoções', estado.tipo==='promo', mudar(() => estado.tipo = estado.tipo==='promo'?'tudo':'promo'), 'sol'));
   f.scrollLeft = rol;
@@ -2657,134 +2841,124 @@ function abrir(id){
 }
 ficha.addEventListener('click', e => { if(e.target===ficha) ficha.close(); });
 
-/* ===================== MAPA ===================== */
-const LON0 = -57.6932174962, LAT0 = -27.0301134962, COS = 0.872, K = 1139.3723927158676, MAPA_W = 8000, MAPA_H = 7715;
-const px = lon => (lon-LON0)*COS*K, py = lat => (LAT0-lat)*K;
+/* ===================== MAPA (ruas de fundo com Leaflet + OpenStreetMap) ===================== */
+const LON0 = -57.6932174962, LAT0 = -27.0301134962, COS = 0.872, K = 1139.3723927158676;
 const svg = $('#svg'), pins = $('#pins'), mapa = $('#mapa');
-let vista = {cx:MAPA_W/2, cy:MAPA_H/2, w:MAPA_W*1.05}, anim = null, nos = {}, marc = [], nv = -1;
+let LF = null, mapaL = null, camMun = null, camPins = null, poli = {}, nv = -1, carregandoMapa = false;
 var mapaPronto = false;
+// converte o contorno guardado no site (M x y l dx dy ... z) para latitude e longitude
+function contorno(g){
+  const t = g.match(/[Mlz]|-?\d+(?:\.\d+)?/g) || [], aneis = []; let anel = null, x = 0, y = 0, cmd = '';
+  const ll = () => [LAT0 - y/K, x/(COS*K) + LON0];
+  for(let i = 0; i < t.length; i++){
+    const v = t[i];
+    if(v==='M' || v==='l' || v==='z'){ cmd = v; if(v==='z'){ if(anel && anel.length > 2) aneis.push(anel); anel = null; } continue; }
+    const a = +v, b = +t[++i];
+    if(cmd==='M'){ if(anel && anel.length > 2) aneis.push(anel); x = a; y = b; anel = [ll()]; cmd = 'l'; }
+    else { x += a; y += b; if(anel) anel.push(ll()); }
+  }
+  if(anel && anel.length > 2) aneis.push(anel);
+  return aneis;
+}
+function carregar(src, css){
+  return new Promise((ok, erro) => {
+    const el = document.createElement(css ? 'link' : 'script');
+    if(css){ el.rel = 'stylesheet'; el.href = src; } else { el.src = src; el.async = true; }
+    el.onload = ok; el.onerror = erro; document.head.append(el);
+  });
+}
+const escuro = () => { const t = document.documentElement.dataset.theme; return t ? t==='dark' : matchMedia('(prefers-color-scheme: dark)').matches; };
 // monta o mapa só quando ele fica visível (aba Mapa no celular; sempre visível no computador)
-function garantirMapa(forcar){
-  if(mapaPronto || !itens.length || !(forcar || mapa.clientWidth)) return;
-  mapaPronto = true; fundo(); montarPins(); atualizarPins();
+async function garantirMapa(forcar){
+  if(mapaPronto || carregandoMapa || !itens.length || !(forcar || mapa.clientWidth)) return;
+  carregandoMapa = true;
+  try{
+    await Promise.all([carregar('https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css', true), carregar('https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js')]);
+  }catch(e){ carregandoMapa = false; $('#mapaTxt').textContent = 'Não foi possível carregar o mapa. Confira a internet e abra a aba de novo.'; return; }
+  LF = window.L; svg.remove(); pins.remove();
+  const div = document.createElement('div'); div.id = 'lmap'; mapa.prepend(div);
+  mapaL = LF.map(div, {zoomControl:false, preferCanvas:true, minZoom:5, maxZoom:18, zoomSnap:.25, attributionControl:false, maxBounds:[[-36.5,-60.5],[-25,-47]]});
+  LF.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom:19, className:escuro() ? 'mapa-escuro' : '', attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'
+  }).addTo(mapaL);
+  LF.control.attribution({position:'bottomleft', prefix:false}).addTo(mapaL);
+  fundo();
+  camPins = LF.layerGroup().addTo(mapaL);
+  mapaL.on('zoomend moveend', () => atualizarPins());
+  $('#zMais').onclick = () => mapaL.zoomIn();
+  $('#zMenos').onclick = () => mapaL.zoomOut();
+  mapaPronto = true; carregandoMapa = false;
+  new ResizeObserver(() => mapaL && mapaL.invalidateSize()).observe(mapa);
+  focarMapa(false); atualizarPins();
 }
 function fundo(){
-  let s = '';
-  for(const k in CIDADES) if(CIDADES[k].geo) s += '<path class="mun" data-c="'+k+'" d="'+CIDADES[k].geo+'" vector-effect="non-scaling-stroke"/>';
-  svg.innerHTML = s;
-  svg.addEventListener('click', e => { const c = e.target.dataset && e.target.dataset.c; if(c) irCidade(c); });
+  camMun = LF.layerGroup().addTo(mapaL);
+  for(const k in CIDADES){
+    if(!CIDADES[k].geo) continue;
+    const p = LF.polygon(contorno(CIDADES[k].geo), {weight:1, color:'#1E5B47', opacity:.35, fillColor:'#1E5B47', fillOpacity:0, smoothFactor:1.5});
+    p.on('click', () => irCidade(k));
+    poli[k] = p; camMun.addLayer(p);
+  }
+  estiloMun();
+}
+function estiloMun(){
+  if(!mapaL) return;
+  const sel = estado.cidade!=='todas' && !estado.q ? estado.cidade : null;
+  for(const k in poli){
+    const dentro = naReg(k), tem = !!comLugar[k];
+    poli[k].setStyle(k===sel
+      ? {weight:3, color:'#E9A91F', opacity:1, dashArray:'6 4', fillColor:'#E9A91F', fillOpacity:.08}
+      : {weight:1, color:'#1E5B47', opacity:dentro ? .45 : .15, dashArray:null, fillColor:'#1E5B47', fillOpacity:dentro && tem ? .07 : 0});
+  }
+  if(sel && poli[sel]) poli[sel].bringToFront();
 }
 // 0: estado (só municípios)  1: balões com contagem  2: balões com nome  3: marcadores dos lugares
-const nivel = () => vista.w < 460 ? 3 : vista.w < 1300 ? 2 : vista.w <= (estado.reg==='rs' ? 2700 : MAPA_W*1.3) ? 1 : 0;
-function montarPins(){
-  pins.textContent = ''; nos = {}; marc = [];
-  for(const c in comLugar){
-    const b = document.createElement('button'); b.className = 'no'; b.dataset.l = 't'; b.hidden = true;
-    b.innerHTML = '<b>0</b><span>'+CIDADES[c].nome+'</span>'; b.onclick = () => irCidade(c);
-    b._x = px(CIDADES[c].lon); b._y = py(CIDADES[c].lat); pins.append(b); nos[c] = b;
-  }
-  itens.forEach((x,k) => {
-    const b = document.createElement('button'); b.className = 'pin'+(x.t==='evento'?' ev':''); b.textContent = TIPOS[x.t].e;
-    b.setAttribute('aria-label', x.n); b.hidden = true; b.style.animationDelay = (k%12*40)+'ms';
-    b.onclick = () => abrir(x.id); b._x = px(x.lon); b._y = py(x.lat); b._it = x; pins.append(b); marc.push(b);
-  });
-  focarMapa(false);
-}
+const nivel = () => { const z = mapaL ? mapaL.getZoom() : 6; return z >= 11 ? 3 : z >= 9 ? 2 : z >= 7 ? 1 : 0; };
+const icone = (html, cls) => LF.divIcon({className:'mk', html, iconSize:[0,0], iconAnchor:[0,0]});
+function montarPins(){ if(mapaPronto) atualizarPins(); }
 function atualizarPins(){
   if(!mapaPronto) return;
   const naCidade = estado.cidade!=='todas' && !estado.q; nv = nivel();
-  const cont = {}; for(const x of itens) if(passa(x,true)) cont[x.c] = (cont[x.c]||0)+1;
-  for(const c in nos){
-    const n = cont[c]||0; nos[c]._on = !naCidade && (nv===1 || nv===2) && n>0;
-    nos[c].firstChild.textContent = n; nos[c].setAttribute('aria-label', CIDADES[c].nome+', '+n+' resultados');
+  camPins.clearLayers(); estiloMun();
+  const area = mapaL.getBounds().pad(.15);
+  if(!naCidade && (nv===1 || nv===2)){
+    const cont = {}; for(const x of itens) if(passa(x,true)) cont[x.c] = (cont[x.c]||0)+1;
+    for(const c in cont){
+      const C = CIDADES[c]; if(!area.contains([C.lat, C.lon])) continue;
+      const m = LF.marker([C.lat, C.lon], {icon:icone('<button class="no'+(nv===2 ? ' rot' : '')+'" data-l="t" aria-label="'+esc(C.nome)+', '+cont[c]+' resultados"><b>'+cont[c]+'</b><span>'+esc(C.nome)+'</span></button>'), keyboard:false});
+      m.on('click', () => irCidade(c)); camPins.addLayer(m);
+    }
   }
-  for(const m of marc){ m._on = (naCidade || nv===3) && passa(m._it); m.classList.toggle('ativo', m._it.id===ativo); }
-  pins.classList.toggle('rot', nv===2);
-  const sel = svg.querySelector('.mun.sel'); if(sel) sel.classList.remove('sel');
-  if(naCidade){ const m = svg.querySelector('.mun[data-c="'+estado.cidade+'"]'); if(m) m.classList.add('sel'); }
+  if(naCidade || nv===3){
+    let k = 0;
+    for(const x of itens){
+      if(!passa(x) || !area.contains([x.lat, x.lon])) continue;
+      const m = LF.marker([x.lat, x.lon], {icon:icone('<button class="pin'+(x.t==='evento' ? ' ev' : '')+(x.id===ativo ? ' ativo' : '')+'" aria-label="'+esc(x.n)+'" style="animation-delay:'+(k++%12*40)+'ms">'+TIPOS[x.t].e+'</button>'), zIndexOffset:x.id===ativo ? 1000 : 0, keyboard:false});
+      m.on('click', () => abrir(x.id)); camPins.addLayer(m);
+    }
+  }
   $('#btnSerra').hidden = !naCidade;
   $('#mapaTxt').textContent = naCidade ? CIDADES[estado.cidade].nome+': toque em um marcador' : nv===0 ? 'Toque em um município ou aproxime para ver os lugares' : 'Arraste, aproxime ou toque em um município';
-  posPins();
 }
-function posPins(){
-  const W = mapa.clientWidth, H = mapa.clientHeight; if(!W || !H) return;
-  const w = vista.w, h = w*H/W, x0 = vista.cx-w/2, y0 = vista.cy-h/2;
-  for(const el of pins.children){
-    const X = (el._x-x0)/w*100, Y = (el._y-y0)/h*100, on = el._on && X>-6 && X<106 && Y>-6 && Y<106;
-    if(el.hidden === on) el.hidden = !on;
-    if(on){ el.style.left = X+'%'; el.style.top = Y+'%'; }
-  }
-}
-function posicionar(){
-  const W = mapa.clientWidth, H = mapa.clientHeight; if(!W || !H) return;
-  const w = vista.w, h = w*H/W;
-  svg.setAttribute('viewBox', (vista.cx-w/2)+' '+(vista.cy-h/2)+' '+w+' '+h);
-  if(nivel() !== nv) atualizarPins(); else posPins();
-}
-function caixa(xs, ys, asp, folga, minimo){
-  const x1 = Math.min(...xs), x2 = Math.max(...xs), y1 = Math.min(...ys), y2 = Math.max(...ys);
-  return {cx:(x1+x2)/2, cy:(y1+y2)/2, w:Math.max((x2-x1)*folga, (y2-y1)*folga*asp, minimo)};
-}
-function alvo(){
-  const asp = (mapa.clientWidth||5)/(mapa.clientHeight||4);
+function limites(){
+  const pad = (b, f) => b.pad(f);
   if(estado.cidade!=='todas'){
-    const pts = itens.filter(x => x.c===estado.cidade), C = CIDADES[estado.cidade];
-    return caixa(pts.map(p => px(p.lon)).concat(px(C.lon)), pts.map(p => py(p.lat)).concat(py(C.lat)), asp, 1.5, pts.length ? 70 : 330);
+    const C = CIDADES[estado.cidade], pts = itens.filter(x => x.c===estado.cidade).map(x => [x.lat, x.lon]).concat([[C.lat, C.lon]]);
+    if(poli[estado.cidade]) return {b:poli[estado.cidade].getBounds().extend(LF.latLngBounds(pts)), max:14};
+    return {b:pad(LF.latLngBounds(pts), .4), max:14};
   }
-  if(estado.reg==='rs') return {cx:MAPA_W/2, cy:MAPA_H/2, w:Math.max(MAPA_W*1.04, MAPA_H*1.04*asp)};
+  if(estado.reg==='rs') return {b:LF.latLngBounds([[-33.75,-57.65],[-27.08,-49.69]]), max:8};
   const ks = Object.keys(CIDADES).filter(naReg);
-  return caixa(ks.map(k => px(CIDADES[k].lon)), ks.map(k => py(CIDADES[k].lat)), asp, 1.22, 400);
+  return {b:pad(LF.latLngBounds(ks.map(k => [CIDADES[k].lat, CIDADES[k].lon])), .08), max:11};
 }
 function focarMapa(animar){
-  const de = {...vista}, para = alvo();
-  cancelAnimationFrame(anim);
-  if(!animar || !mapa.clientWidth){ vista = para; posicionar(); return; }
-  const t0 = performance.now(), dur = 900;
-  (function passo(t){
-    let p = Math.min(1,(t-t0)/dur); p = p<.5 ? 4*p*p*p : 1-Math.pow(-2*p+2,3)/2;
-    vista = {cx:de.cx+(para.cx-de.cx)*p, cy:de.cy+(para.cy-de.cy)*p, w:Math.exp(Math.log(de.w)+(Math.log(para.w)-Math.log(de.w))*p)};
-    posicionar(); if(p<1) anim = requestAnimationFrame(passo);
-  })(t0);
+  if(!mapaPronto || !mapa.clientWidth) return;
+  mapaL.invalidateSize();
+  const {b, max} = limites();
+  if(animar && !matchMedia('(prefers-reduced-motion: reduce)').matches) mapaL.flyToBounds(b, {maxZoom:max, duration:.9, padding:[20,20]});
+  else mapaL.fitBounds(b, {maxZoom:max, padding:[20,20], animate:false});
 }
-let larg0 = 0;
-new ResizeObserver(() => { garantirMapa(); if(!larg0 && mapa.clientWidth) vista = alvo(); larg0 = mapa.clientWidth; posicionar(); }).observe(mapa);
-
-/* zoom e arraste com os dedos, roda do mouse e botões */
-const dedos = new Map(); let gesto = null, arrastou = false;
-const limita = () => { vista.w = Math.min(MAPA_W*2, Math.max(35, vista.w)); vista.cx = Math.min(MAPA_W+400, Math.max(-400, vista.cx)); vista.cy = Math.min(MAPA_H+400, Math.max(-400, vista.cy)); };
-function zoomEm(f, mx, my){ // mantém fixo o ponto sob o dedo
-  const r = mapa.getBoundingClientRect(), W = r.width, H = r.height, w0 = vista.w, h0 = w0*H/W;
-  const ux = vista.cx-w0/2+(mx-r.left)/W*w0, uy = vista.cy-h0/2+(my-r.top)/H*h0;
-  vista.w = Math.min(MAPA_W*2, Math.max(35, w0*f)); const w1 = vista.w, h1 = w1*H/W;
-  vista.cx = ux-(mx-r.left)/W*w1+w1/2; vista.cy = uy-(my-r.top)/H*h1+h1/2; limita(); posicionar();
-}
-function inicioGesto(){
-  const p = [...dedos.values()];
-  gesto = p.length===2 ? {d:Math.hypot(p[0].x-p[1].x, p[0].y-p[1].y), mx:(p[0].x+p[1].x)/2, my:(p[0].y+p[1].y)/2} : p.length===1 ? {x:p[0].x, y:p[0].y} : null;
-}
-mapa.addEventListener('pointerdown', e => { if(e.target.closest('.zoom')) return; cancelAnimationFrame(anim); dedos.set(e.pointerId,{x:e.clientX,y:e.clientY}); if(dedos.size===1) arrastou = false; inicioGesto(); });
-mapa.addEventListener('pointermove', e => {
-  if(!dedos.has(e.pointerId)) return;
-  dedos.set(e.pointerId,{x:e.clientX,y:e.clientY});
-  const p = [...dedos.values()];
-  if(p.length===2 && gesto && gesto.d){
-    const d = Math.hypot(p[0].x-p[1].x, p[0].y-p[1].y), mx = (p[0].x+p[1].x)/2, my = (p[0].y+p[1].y)/2;
-    vista.cx -= (mx-gesto.mx)*vista.w/mapa.clientWidth; vista.cy -= (my-gesto.my)*vista.w/mapa.clientWidth;
-    zoomEm(gesto.d/d, mx, my); gesto = {d, mx, my}; arrastou = true;
-  } else if(p.length===1 && gesto && gesto.x!==undefined){
-    const dx = p[0].x-gesto.x, dy = p[0].y-gesto.y;
-    if(!arrastou && Math.hypot(dx,dy) < 7) return;
-    arrastou = true; const k = vista.w/mapa.clientWidth;
-    vista.cx -= dx*k; vista.cy -= dy*k; limita(); gesto = {x:p[0].x, y:p[0].y}; posicionar();
-  }
-});
-const solta = e => { dedos.delete(e.pointerId); inicioGesto(); };
-mapa.addEventListener('pointerup', solta); mapa.addEventListener('pointercancel', solta); mapa.addEventListener('pointerleave', solta);
-mapa.addEventListener('click', e => { if(arrastou){ e.stopPropagation(); e.preventDefault(); arrastou = false; } }, true);
-mapa.addEventListener('wheel', e => { e.preventDefault(); zoomEm(e.deltaY>0 ? 1.2 : 1/1.2, e.clientX, e.clientY); }, {passive:false});
-const meio = f => { const r = mapa.getBoundingClientRect(); const de = vista.w, t0 = performance.now(); cancelAnimationFrame(anim);
-  let ant = 1; (function q(t){ const p = Math.min(1,(t-t0)/260), alvoF = Math.pow(f,p); zoomEm(alvoF/ant, r.left+r.width/2, r.top+r.height/2); ant = alvoF; if(p<1) anim = requestAnimationFrame(q); })(t0); };
-$('#zMais').onclick = () => meio(1/1.8); $('#zMenos').onclick = () => meio(1.8);
+new ResizeObserver(() => garantirMapa()).observe(mapa);
 
 /* ===================== MOVIMENTO DO TOPO ===================== */
 (function araucarias(){
