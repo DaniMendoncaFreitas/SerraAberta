@@ -495,6 +495,7 @@ main{min-height:150vh}
 .tag{background:none;box-shadow:inset 0 0 0 1px var(--line);color:var(--muted);font-weight:600}
 .tag.gratis{background:color-mix(in srgb,var(--pine) 12%,transparent);box-shadow:none;color:var(--pine)}
 .tag.sug{box-shadow:none}
+.tag.cr{box-shadow:none;background:color-mix(in srgb,var(--sol) 22%,transparent);color:var(--ink)}
 @media (hover:hover){
   .card.vis:hover{transform:translateY(-2px);box-shadow:0 0 0 1px color-mix(in srgb,var(--tc) 35%,var(--line)),0 16px 30px -18px color-mix(in srgb,var(--tc) 70%,transparent)}
 }
@@ -2407,7 +2408,8 @@ const L = [
  ["Morro Reuter","atracao","pago",0,"Café Colonial Walachay","",null,null,"Café colonial tradicional de Morro Reuter, na Rota Romântica.",{}],
  ["Dois Irmãos","atracao","pago",0,"Café Colonial do Restaurante Santa Cecília","",null,null,"Café colonial com pratos típicos da imigração alemã.",{}],
  ["Monte Belo do Sul","atracao","pago",0,"Bello Sapore","",null,null,"Armazém colonial com café colonial e piquenique nos fins de semana.",{}],
- ["Gramado","atracao","consulte",0,"Cervejaria Rasen","",null,null,"Cervejaria artesanal de Gramado com chopes da casa e cozinha de bar.",{}]
+ ["Gramado","atracao","consulte",0,"Cervejaria Rasen","",null,null,"Cervejaria artesanal de Gramado com chopes da casa e cozinha de bar.",{}],
+ ["Caxias do Sul","parque","gratis",1,"Centro Esportivo Municipal Antônio Barroso Filho (Campo Municipal)","Cinquentenário",-29.1686274,-51.2078601,"Complexo esportivo público na Avenida Júlio de Castilhos, com pista de corrida, parquinho para crianças e quadra de areia.",{"cr":1,"k":"Bom para as crianças brincarem enquanto os adultos caminham ou correm na pista."}]
 ];
 const RESTAURANTES = [
  // ---------- ONDE ALMOÇAR: uma sugestão por cidade (pesquisa de outubro de 2026) ----------
@@ -2573,7 +2575,10 @@ async function buscarDados(){ return {lugares:LUGARES, eventos:EVENTOS, anuncios
 /* ===================== ESTADO ===================== */
 const INTERVALO = 30*60*1000, PASSO = 14;
 const $ = s => document.querySelector(s);
-const estado = {reg:'serra', cidade:'todas', tipo:'tudo', preco:'todos', ar:false, aberto:false, q:'', lim:PASSO};
+const estado = {reg:'serra', cidade:'todas', tipo:'tudo', preco:'todos', ar:false, aberto:false, cr:false, q:'', lim:PASSO};
+// lugares bons para levar crianças: marcados com cr:1 ou reconhecidos pelo nome e pela descrição
+const RX_CR = /zool[oó]gico|\bzoo\b|parque tem[aá]tico|mini ?mundo|papai noel|snowland|acquamotion|vila da m[oô]nica|termas park|parque aqu[aá]tico|fazendinha|parque da ovelha|parque de aventuras|florybal|terra m[aá]gica|mundo a vapor|alpen park|dreamland|dream cars|planet[aá]rio|museu de ci[eê]ncias|playground|pracinha|parquinho|dinossauro|brinquedo|maria fuma[cç]a|tobo[aá]gua|infantil|crian[cç]as/i;
+const kids = x => x.t!=='restaurante' && x.t!=='vinicola' && (!!x.cr || RX_CR.test(x.n+' '+(x.d||'')));
 let dados = {lugares:[], eventos:[], anuncios:[]}, itens = [], ultima = null, ativo = null;
 const norm = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
 const dia = s => { const [y,m,d] = s.split('-').map(Number); return new Date(y,m-1,d); };
@@ -2629,6 +2634,7 @@ function acesso(x){
 
 /* ===================== FILTROS ===================== */
 function passa(x, semCidade){
+  if(estado.cr && !kids(x)) return false;
   if(!estado.q){ // a busca por texto vale para o estado inteiro
     if(!naReg(x.c)) return false;
     if(!semCidade && estado.cidade!=='todas' && x.c!==estado.cidade) return false;
@@ -2670,6 +2676,7 @@ function montarChips(){
   s.value = estado.cidade;
   const f = $('#filtros'), rol = f.scrollLeft; f.textContent = '';
   const mudar = fn => () => { fn(); estado.lim = PASSO; desenhar(); };
+  f.append(chip('🧸 Para crianças', estado.cr, mudar(() => estado.cr = !estado.cr), 'sol'));
   f.append(chip('🍽️ Onde almoçar', estado.tipo==='restaurante', mudar(() => estado.tipo = estado.tipo==='restaurante'?'tudo':'restaurante'), 'sol'));
   f.append(chip('Aberto agora', estado.aberto, mudar(() => estado.aberto = !estado.aberto)));
   f.append(chip('Gratuito', estado.preco==='gratis', mudar(() => estado.preco = estado.preco==='gratis'?'todos':'gratis')));
@@ -2710,7 +2717,7 @@ function cartao(x, k){
     const quando = x.i===x.f ? fmt(x._i) : fmt(x._i)+' a '+fmt(x._f);
     b.innerHTML = '<div class="data"><b>'+x._i.getDate()+'</b><span>'+MES[x._i.getMonth()]+'</span></div><div><h3>'+esc(x.n)+'</h3><p>'+esc(onde)+'<br>'+quando+'</p><p class="st '+ac.cls+'">'+ac.txt+'</p><div class="tags">'+tagPreco(x.p)+'</div></div>';
   } else {
-    b.innerHTML = '<div class="ico">'+TIPOS[x.t].e+'</div><div><h3>'+esc(x.n)+'</h3><p>'+esc(onde)+'</p><p class="st '+ac.cls+'">'+ac.txt+'</p><div class="tags">'+(x.t==='restaurante'?'<span class="tag sug">⭐ Sugestão do Serra Aberta</span>':tagPreco(x.p))+'<span class="tag">'+TIPOS[x.t].um+'</span>'+(x.a?'<span class="tag">Ar livre</span>':'')+'</div></div>';
+    b.innerHTML = '<div class="ico">'+TIPOS[x.t].e+'</div><div><h3>'+esc(x.n)+'</h3><p>'+esc(onde)+'</p><p class="st '+ac.cls+'">'+ac.txt+'</p><div class="tags">'+(x.t==='restaurante'?'<span class="tag sug">⭐ Sugestão do Serra Aberta</span>':tagPreco(x.p))+'<span class="tag">'+TIPOS[x.t].um+'</span>'+(x.a?'<span class="tag">Ar livre</span>':'')+(kids(x)?'<span class="tag cr">🧸 Crianças</span>':'')+'</div></div>';
   }
   b.onclick = () => abrir(x.id); revelar(b, k); return b;
 }
@@ -2755,7 +2762,7 @@ function desenhar(){
     if(pr.length) pr.forEach(a => g.append(cartaoAnuncio(a)));
     else g.append(vazio('Nenhuma promoção publicada '+nomeC,'Este espaço é dos anunciantes. As ofertas aparecem aqui assim que forem cadastradas.'));
   } else {
-    $('#titLugares').textContent = estado.tipo==='tudo' ? 'Lugares' : TIPOS[estado.tipo].nome;
+    $('#titLugares').textContent = estado.tipo==='tudo' ? (estado.cr ? 'Para crianças' : 'Lugares') : TIPOS[estado.tipo].nome+(estado.cr ? ' para crianças' : '');
     $('#contLugares').textContent = lug.length+(estado.tipo==='restaurante' ? (lug.length===1?' sugestão ':' sugestões ') : (lug.length===1?' lugar ':' lugares '))+nomeC;
     const ads = anunciosAtivos(false).filter(a => estado.tipo==='restaurante' ? a.rest : !a.rest);
     ads.forEach(a => g.append(cartaoAnuncio(a)));
@@ -2821,7 +2828,7 @@ function abrir(id){
   const quando = x.t==='evento' ? '<p class="onde">'+(x.i===x.f ? fmt(x._i) : fmt(x._i)+' a '+fmt(x._f))+'</p>' : '';
   $('#fichaC').innerHTML =
     '<button class="fechar" aria-label="Fechar">✕</button>'+
-    '<div class="tags">'+(x.t==='restaurante'?'<span class="tag sug">⭐ Sugestão do Serra Aberta</span>':tagPreco(x.p))+'<span class="tag">'+TIPOS[x.t].um+'</span>'+(x.a?'<span class="tag">Ar livre</span>':'')+'</div>'+
+    '<div class="tags">'+(x.t==='restaurante'?'<span class="tag sug">⭐ Sugestão do Serra Aberta</span>':tagPreco(x.p))+'<span class="tag">'+TIPOS[x.t].um+'</span>'+(x.a?'<span class="tag">Ar livre</span>':'')+(kids(x)?'<span class="tag cr">🧸 Crianças</span>':'')+'</div>'+
     '<h2 id="fNome">'+esc(x.n)+'</h2><p class="onde">'+esc((x.b?x.b+', ':'')+cid)+'</p>'+quando+
     (x.fotos && x.fotos.length ? '<div class="galeria">'+x.fotos.map(f => '<img loading="lazy" alt="Foto de '+esc(x.n)+'" src="'+esc(f)+'">').join('')+'</div>' : '')+
     '<p class="st '+ac.cls+'">'+ac.txt+'</p><p>'+esc(x.d)+'</p>'+(x.k?'<p class="dica">'+esc(x.k)+'</p>':'')+
